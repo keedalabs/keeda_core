@@ -1,0 +1,39 @@
+<% topic ||= nil %>
+<% if activity.verb=='reply'
+     per_page_count = 5
+   else
+     per_page_count = 25
+   end
+   replies = activity.replies.page(1).per(per_page_count)
+%>
+<div class="card">
+  <div class="card-body">
+    <%= activity.user.name %>
+    <%= time_ago_in_words activity.created_at %>
+    <br>
+    <%= activity.content %>
+    <br>
+    <%= link_to 'Edit', edit_activity_path(activity) %>
+    <a class="collapsed" data-toggle="collapse" href="#collapse<%= dom_id(activity) %>" role="button" aria-expanded="false" aria-controls="collapse<%= dom_id(activity) %>">
+      reply
+    </a>
+    <div id="collapse<%= dom_id(activity) %>" class="collapse">
+      <%= render :partial => 'activities/form', locals: {parent_activity: activity, activity: Activity.new, topic: topic, verb: 'reply'}%>
+    </div>
+    <% if topic.present? %>
+      <%= link_to 'Show', topic_activity_path(id: topic.id, activity_id: activity.id) %>
+    <% end %>
+    <div id="<%= dom_id(activity) %>">
+      <% replies.each do |reply_activity| %>
+        <%= render :partial => 'activities/activity', locals: { activity: reply_activity } %>
+      <% end %>
+    </div>
+    <% if (!replies.last_page? && replies.present?) %>
+      <%= link_to "Load more", activity_replies_path(activity, page: replies.current_page + 1, per_page: per_page_count), id: "load-more-replies"+dom_id(activity), remote: true %>
+    <% end %>
+  </div>
+
+</div>
+
+
+

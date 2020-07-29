@@ -1,0 +1,16 @@
+<strong>Name:</strong>
+<%= @topic.name %>
+<br>
+<strong>Description:</strong>
+<%= topic.description %>
+<br>
+<%= link_to 'Edit', edit_topic_path(topic) %>
+<br>
+<%= link_to 'Back', topics_path %>
+<br>
+<%= link_to 'Index', topic_path(id:topic.id) %>
+<br>
+<%= link_to 'Wiki', topic_path(id:topic.id, type:'wiki') %>
+<br>
+<%= link_to 'New', new_topic_activity_path(id:topic.id) %>
+<br>

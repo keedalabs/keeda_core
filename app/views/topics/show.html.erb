@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-md-3">
+    <%= render :partial => 'sidebar', locals: { topic: @topic } %>
+  </div>
+  <div class="col-md-8">
+    <% if @display_activity.present? %>
+      <%= render :partial => 'activities/activity', locals: { activity: @display_activity, topic: @topic } %>
+    <% else %>
+      <% @display_activities.each do |activity| %>
+        <%= render :partial => 'activities/activity', locals: { activity: activity, topic: @topic } %>
+      <% end %>
+    <% end %>
+
+
+  </div>
+</div>
+
+

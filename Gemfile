@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+gem 'activeadmin'
+gem 'blazer'
+gem 'paper_trail'
 gem 'rails',      '6.0.3'
 gem 'puma',       '4.3.5'
 gem 'bootstrap', '~> 4.0'
@@ -24,6 +27,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'annotate'
   gem 'web-console',           '4.0.1'
   gem 'listen',                '3.1.5'
   gem 'spring',                '2.1.0'
@@ -44,3 +48,9 @@ end
 # Uncomment the following line if you're running Rails
 # on a native Windows system:
 # gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem "stimulus_reflex", "~> 3.2"
+
+gem "redis", "~> 4.2"
+gem "sidekiq", "~> 6.1"
+
+gem "kaminari", "~> 1.2"

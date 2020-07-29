@@ -1,0 +1,7 @@
+$("#<%= dom_id(@activity) %>").append("<%= j(render(partial: "activities/activity", collection: @replies)) %>");
+
+<% if @replies.last_page? %>
+$("#load-more-replies<%= dom_id(@activity) %>").hide();
+<% else %>
+$("#load-more-replies<%= dom_id(@activity) %>").attr("href", "<%= activity_replies_path(@activity, page: @replies.current_page + 1, per_page: @per_page_count) %>");
+<% end %>

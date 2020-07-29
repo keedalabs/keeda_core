@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @reaction.type %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @reaction.user_id %>
+</p>
+
+<p>
+  <strong>Object:</strong>
+  <%= @reaction.object %>
+</p>
+
+<p>
+  <strong>Activity:</strong>
+  <%= @reaction.activity_id %>
+</p>
+
+<%= link_to 'Edit', edit_reaction_path(@reaction) %> |
+<%= link_to 'Back', reactions_path %>

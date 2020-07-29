@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Topics</h1>
+<div class="row row-cols-2">
+  <% @topics.each do |topic| %>
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"><%= topic.name %></h5>
+        <p class="card-text"><%= topic.description %></p>
+        <%= link_to 'Show', topic, class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>
+
+
+<br>
+
+<%= link_to 'New Topic', new_topic_path %>

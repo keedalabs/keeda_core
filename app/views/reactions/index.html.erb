@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Reactions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>User</th>
+      <th>Object</th>
+      <th>Activity</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @reactions.each do |reaction| %>
+      <tr>
+        <td><%= reaction.type %></td>
+        <td><%= reaction.user_id %></td>
+        <td><%= reaction.object %></td>
+        <td><%= reaction.activity_id %></td>
+        <td><%= link_to 'Show', reaction %></td>
+        <td><%= link_to 'Edit', edit_reaction_path(reaction) %></td>
+        <td><%= link_to 'Destroy', reaction, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Reaction', new_reaction_path %>
