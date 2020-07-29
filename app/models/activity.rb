@@ -25,12 +25,15 @@ class Activity < ApplicationRecord
   belongs_to :user
   has_many :activity_topics, dependent: :destroy
   has_many :topics, through: :activity_topics
-  has_many :replies, :class_name => "Activity", foreign_key: 'parent_activity_id'
+  has_many :replies, :class_name => "Activity", foreign_key: 'parent_activity_id', dependent: :destroy
   belongs_to :parent_activity, :class_name => "Activity", foreign_key: 'parent_activity_id', optional: true
   has_rich_text :content
   has_paper_trail
   def destroy_activity_topics
     self.activity_topics.destroy_all
+  end
+  def destroy_activity_replies
+    self.replies.destroy_all
   end
   def topics
     super.pluck(:name).join(',')

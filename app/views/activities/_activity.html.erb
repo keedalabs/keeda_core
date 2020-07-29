@@ -6,19 +6,25 @@
    end
    replies = activity.replies.page(1).per(per_page_count)
 %>
-<div class="card">
+<div class="card" id="<%= dom_id(activity) %>start">
   <div class="card-body">
     <%= activity.user.name %>
     <%= time_ago_in_words activity.created_at %>
     <br>
     <%= activity.content %>
+    <div id="editcollapse<%= dom_id(activity) %>" class="collapse">
+      <%= render :partial => 'activities/form', locals: {activity: @activity, collapse_id: "editcollapse"+dom_id(activity)} %>
+    </div>
     <br>
-    <%= link_to 'Edit', edit_activity_path(activity) %>
+    <a class="collapsed" data-toggle="collapse" href="#editcollapse<%= dom_id(activity) %>" role="button" aria-expanded="false" aria-controls="editcollapse<%= dom_id(activity) %>">
+      edit
+    </a>
     <a class="collapsed" data-toggle="collapse" href="#collapse<%= dom_id(activity) %>" role="button" aria-expanded="false" aria-controls="collapse<%= dom_id(activity) %>">
       reply
     </a>
+    <td><%= link_to 'delete', activity, method: :delete, data: { confirm: 'Are you sure?' }, remote:true %></td>
     <div id="collapse<%= dom_id(activity) %>" class="collapse">
-      <%= render :partial => 'activities/form', locals: {parent_activity: activity, activity: Activity.new, topic: topic, verb: 'reply'}%>
+      <%= render :partial => 'activities/form', locals: {parent_activity: activity, activity: Activity.new, topic: topic, verb: 'reply', collapse_id: "collapse"+dom_id(activity)}%>
     </div>
     <% if topic.present? %>
       <%= link_to 'Show', topic_activity_path(id: topic.id, activity_id: activity.id) %>

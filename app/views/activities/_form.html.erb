@@ -1,47 +1,53 @@
 <% parent_activity ||= nil %>
 <% verb ||= nil %>
 <% topic ||= nil %>
+<% collapse_id ||= nil %>
+
 <div data-controller='activity'>
-<%= form_with(model: activity, data: { action: 'ajax:success->activity#clearInput' }) do |form| %>
-  <% if activity.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(activity.errors.count, "error") %> prohibited this activity from being saved:</h2>
+  <%= form_with(model: activity, data: { action: 'ajax:success->activity#clearInput' }) do |form| %>
+    <% if activity.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(activity.errors.count, "error") %> prohibited this activity from being saved:</h2>
 
-      <ul>
-        <% activity.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+        <ul>
+          <% activity.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <% if verb.present? %>
+      <%= form.hidden_field :verb, value: verb %>
+    <% else %>
+      <div class="field">
+        <%= form.label :verb %>
+        <%= form.text_field :verb, data: { target: 'activity.verb' }  %>
+      </div>
+    <% end %>
+    <% if parent_activity.present? %>
+      <%= form.text_area :content, data: { target: 'activity.content' } %>
+    <% else %>
+      <div class="field">
+        <%= form.label :content %>
+        <%= form.rich_text_area :content, data: { target: 'activity.content' } %>
+      </div>
+    <% end %>
+
+    <% if topic.present? and !parent_activity&.present? %>
+      <%= form.hidden_field :topics, value: topic.name, data: { target: 'activity.topic' } %>
+    <% end %>
+
+
+    <% if parent_activity&.present? %>
+      <%= form.hidden_field :parent_activity_id, value: parent_activity.id %>
+    <% end %>
+    <div class="actions">
+      <% if collapse_id.present? %>
+        <!--        <button type="submit" data-toggle="collapse" href="<%#= collapse_id %>" role="button" aria-expanded="false" aria-controls="<%#= collapse_id %>">save</button>-->
+        <%= form.submit %>
+      <% else %>
+        <%= form.submit %>
+      <% end %>
     </div>
   <% end %>
-  <% if verb.present? %>
-    <%= form.hidden_field :verb, value: verb %>
-  <% else %>
-    <div class="field">
-      <%= form.label :verb %>
-      <%= form.text_field :verb, data: { target: 'activity.verb' }  %>
-    </div>
-  <% end %>
-  <% if parent_activity.present? %>
-    <%= form.text_area :content, data: { target: 'activity.content' } %>
-  <% else %>
-    <div class="field">
-      <%= form.label :content %>
-      <%= form.rich_text_area :content, data: { target: 'activity.content' } %>
-    </div>
-  <% end %>
-
-  <% if topic.present? and !parent_activity&.present? %>
-    <%= form.hidden_field :topics, value: topic.name, data: { target: 'activity.topic' } %>
-  <% end %>
-
-
-  <% if parent_activity&.present? %>
-    <%= form.hidden_field :parent_activity_id, value: parent_activity.id %>
-  <% end %>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
 </div>
