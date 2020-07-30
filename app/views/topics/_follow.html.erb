@@ -1,0 +1,7 @@
+<span id="<%= dom_id(topic) %>follow">
+<% if current_user&.following?(topic) %>
+  UnFollow
+<% elsif current_user %>
+  Follow
+<% end %>
+</span>

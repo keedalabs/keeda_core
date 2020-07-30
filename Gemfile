@@ -48,9 +48,11 @@ end
 # Uncomment the following line if you're running Rails
 # on a native Windows system:
 # gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-gem "stimulus_reflex", "~> 3.2"
+gem "stimulus_reflex", "~> 3.3.0-pre2"
 
 gem "redis", "~> 4.2"
 gem "sidekiq", "~> 6.1"
-
+gem 'acts_as_follower', github: 'tcocca/acts_as_follower', branch: 'master'
 gem "kaminari", "~> 1.2"
+
+gem "stream_rails", "~> 2.6"

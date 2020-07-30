@@ -4,7 +4,7 @@
 #
 #  id          :bigint           not null, primary key
 #  object      :json
-#  type        :string
+#  verb        :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  activity_id :bigint           not null
@@ -21,6 +21,7 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Reaction < ApplicationRecord
+  validates_uniqueness_of :user_id, scope: [:verb, :activity_id]
   belongs_to :user
   belongs_to :activity
 end

@@ -24,7 +24,7 @@
         <%= form.text_field :verb, data: { target: 'activity.verb' }  %>
       </div>
     <% end %>
-    <% if parent_activity.present? %>
+    <% if verb=='reply' %>
       <%= form.text_area :content, data: { target: 'activity.content' } %>
     <% else %>
       <div class="field">
@@ -33,7 +33,7 @@
       </div>
     <% end %>
 
-    <% if topic.present? and !parent_activity&.present? %>
+    <% if topic.present? and verb!='reply' %>
       <%= form.hidden_field :topics, value: topic.name, data: { target: 'activity.topic' } %>
     <% end %>
 

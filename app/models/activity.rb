@@ -22,18 +22,24 @@
 class Activity < ApplicationRecord
   default_scope { order("created_at DESC") }
   before_destroy :destroy_activity_topics
+
   belongs_to :user
   has_many :activity_topics, dependent: :destroy
   has_many :topics, through: :activity_topics
   has_many :replies, :class_name => "Activity", foreign_key: 'parent_activity_id', dependent: :destroy
+  has_many :reactions, dependent: :destroy
   belongs_to :parent_activity, :class_name => "Activity", foreign_key: 'parent_activity_id', optional: true
   has_rich_text :content
   has_paper_trail
+
   def destroy_activity_topics
     self.activity_topics.destroy_all
   end
   def destroy_activity_replies
     self.replies.destroy_all
+  end
+  def topic_list
+    ActivityTopic.where(activity_id:self.id).map{|object| object.topic}
   end
   def topics
     super.pluck(:name).join(',')

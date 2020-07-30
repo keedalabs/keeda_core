@@ -1,14 +1,23 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
-
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
-
 <%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<div class="row">
+  <div class="col-md-3">
+    <%= render  partial: 'dashboard/sidebar', locals: {topics: @user.following_by_type('Topic'), user: @user}  %>
+  </div>
+  <div class="col-md-8">
+    <%= render  @user.activities.where.not(verb: 'reply')  %>
+  </div>
+</div>
+
+<br>
+<% if current_user.id!=@user.id %>
+<a role="button" href="#" data-reflex="click->User#like"
+   data-user-id="<%= @user.id %>">
+  <%= render 'follow', user: @user %>
+</a>
+<% end %>
+
+
+
+

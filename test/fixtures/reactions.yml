@@ -4,7 +4,7 @@
 #
 #  id          :bigint           not null, primary key
 #  object      :json
-#  type        :string
+#  verb        :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  activity_id :bigint           not null

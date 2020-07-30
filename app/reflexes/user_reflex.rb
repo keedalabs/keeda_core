@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ActivityReflex < ApplicationReflex
+class UserReflex < ApplicationReflex
   delegate :current_user, to: :connection
   # Add Reflex methods in this file.
   #
@@ -23,9 +23,14 @@ class ActivityReflex < ApplicationReflex
   #
   # Learn more at: https://docs.stimulusreflex.com
   def like
-    activity = Activity.find_by(id: element.dataset['activity-id'])
-    reaction =  activity.reactions.find_or_initialize_by(verb: 'like', user_id: current_user.id)
-    reaction.persisted? ? reaction.destroy : reaction.save
-    morph "#activity_#{activity.id}likecount", activity.reactions.where(verb: 'like').count
+    user = User.find_by(id: element.dataset['user-id'])
+    if current_user.following?(user)
+      current_user.stop_following(user)
+    else
+      current_user.follow(user)
+      stream_client = StreamRails.client
+      stream_client.feed('timeline', current_user.id).follow('user', user.id)
+    end
+    morph "#user_#{user.id}follow", ApplicationController.render(partial: "users/follow", locals: {user: user, current_user: current_user})
   end
 end

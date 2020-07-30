@@ -7,15 +7,24 @@
    replies = activity.replies.page(1).per(per_page_count)
 %>
 <div class="card" id="<%= dom_id(activity) %>start">
-  <div class="card-body">
+  <div class="card-title">
     <%= activity.user.name %>
-    <%= time_ago_in_words activity.created_at %>
-    <br>
+    <%= link_to time_ago_in_words(activity.created_at), activity_path(activity) %>
+
+    <div class="float-right"><%= activity.verb %></div>
+
+  </div>
+  <div class="card-body">
     <%= activity.content %>
     <div id="editcollapse<%= dom_id(activity) %>" class="collapse">
-      <%= render :partial => 'activities/form', locals: {activity: @activity, collapse_id: "editcollapse"+dom_id(activity)} %>
+      <%= render :partial => 'activities/form', locals: {activity: activity, collapse_id: "editcollapse"+dom_id(activity)} %>
     </div>
+    Topics:
+    <% activity.topic_list.each do |topic| %>
+      <%= link_to topic.name, topic_path(topic) %>
+    <% end %>
     <br>
+    <%= render :partial => 'activities/like', locals: {activity: activity} %>
     <a class="collapsed" data-toggle="collapse" href="#editcollapse<%= dom_id(activity) %>" role="button" aria-expanded="false" aria-controls="editcollapse<%= dom_id(activity) %>">
       edit
     </a>
@@ -38,7 +47,6 @@
       <%= link_to "Load more", activity_replies_path(activity, page: replies.current_page + 1, per_page: per_page_count), id: "load-more-replies"+dom_id(activity), remote: true %>
     <% end %>
   </div>
-
 </div>
 
 

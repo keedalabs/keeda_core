@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-md-3">
+    <%= render :partial => 'sidebar', locals: { topic: @topic } %>
+  </div>
+  <div class="col-md-8">
+
+  <% @wikis.each do |wiki| %>
+  <%= render :partial => 'wiki', locals: { wiki: wiki, topic: @topic } %>
+<% end %>
+  </div>
+</div>

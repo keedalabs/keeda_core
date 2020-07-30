@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_27_105122) do
+ActiveRecord::Schema.define(version: 2020_07_29_161928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -135,8 +135,22 @@ ActiveRecord::Schema.define(version: 2020_07_27_105122) do
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
+  create_table "follows", id: :serial, force: :cascade do |t|
+    t.string "followable_type", null: false
+    t.integer "followable_id", null: false
+    t.string "follower_type", null: false
+    t.integer "follower_id", null: false
+    t.boolean "blocked", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["followable_id", "followable_type"], name: "fk_followables"
+    t.index ["followable_type", "followable_id"], name: "index_follows_on_followable_type_and_followable_id"
+    t.index ["follower_id", "follower_type"], name: "fk_follows"
+    t.index ["follower_type", "follower_id"], name: "index_follows_on_follower_type_and_follower_id"
+  end
+
   create_table "reactions", force: :cascade do |t|
-    t.string "type"
+    t.string "verb"
     t.bigint "user_id", null: false
     t.json "object"
     t.bigint "activity_id", null: false

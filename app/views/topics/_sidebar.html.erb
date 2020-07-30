@@ -13,4 +13,9 @@
 <%= link_to 'Wiki', topic_path(id:topic.id, type:'wiki') %>
 <br>
 <%= link_to 'New', new_topic_activity_path(id:topic.id) %>
+
 <br>
+<a role="button" href="#" data-reflex="click->Topic#like"
+   data-topic-id="<%= topic.id %>">
+  <%= render 'follow', topic: topic %>
+</a>

@@ -1,0 +1,7 @@
+<span id="<%= dom_id(activity) %>likecount">
+    <%= activity.reactions.where(verb:'like').count %>
+  </span>
+  <a role="button" href="#" data-reflex="click->Activity#like"
+     data-activity-id="<%= activity.id %>">
+      like
+    </a>

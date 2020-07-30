@@ -119,15 +119,18 @@
 #              root GET    /                                 blazer/queries#home
 
 Rails.application.routes.draw do
+  get 'dashboard/index'
   resources :reactions
   resources :topics
   resources :activities
   resources :scan_images
   resources :scenarios
+  resources :users
   get 'topics/:id/activities/:activity_id', to: 'topics#show', as: 'topic_activity'
+  get 'topics/:id/wiki', to: 'topics#wiki_list', as: 'topic_wiki_list'
   get 'topics/:id/new_topic_activity', to: 'topics#new_topic_activity', as: 'new_topic_activity'
   get 'activity_replies/:id', to: 'activities#activity_replies', as: 'activity_replies'
-  root 'users#index'
+  root 'dashboard#index'
   mount Blazer::Engine, at: "blazer"
   # resources :users
   # devise_for :users, path_names: {

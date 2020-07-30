@@ -17,6 +17,11 @@ class TopicsController < InheritedResources::Base
     @topic = Topic.find_by(id: params[:id])
     puts @topic.id
   end
+
+  def wiki_list
+    @topic = Topic.find_by(id: params[:id])
+    @wikis = @topic.activities.where(verb: 'wiki')
+  end
   private
 
     def topic_params

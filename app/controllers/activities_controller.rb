@@ -72,10 +72,14 @@ class ActivitiesController < InheritedResources::Base
     puts new_activity_params
     @activity = Activity.new(new_activity_params.except(:topics))
     @activity.user_id = current_user.id
-    if @activity.save
+    if @activity.save!
       for topic in activity_params[:topics]&.split(',').to_a
         topic_model = Topic.where(name: topic).first_or_create!(name:topic)
         ActivityTopic.create!(topic: topic_model, activity: @activity)
+        client = StreamRails.client
+        topic_feed = client.feed('topic', topic_model.id)
+        data = {actor: "User:#{current_user.id}", verb: 'activity', object: "Activity:#{@activity.id}", foreign_id: "Activity:#{@activity.id}"}
+        topic_feed.add_activity(data)
       end
       if activity_params[:parent_activity_id].present?
         cable_ready["activity"].insert_adjacent_html(

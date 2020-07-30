@@ -1,0 +1,13 @@
+<div class="col">
+  <div class="card">
+    <div class="card-body">
+      <p class="card-text"><%= wiki.content.to_plain_text[0..200] %></p>
+      <%= link_to 'Show', topic_activity_path(id: topic.id, activity_id: wiki.id) %>
+      <div>
+        <% wiki.replies.each do |reply_wiki| %>
+          <%= render :partial => 'wiki', locals: { wiki: reply_wiki, topic: topic } %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
