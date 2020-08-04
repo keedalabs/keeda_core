@@ -1,5 +1,5 @@
 
-<strong>Following Topics:</strong>
+
 <p>
   <strong>Name:</strong>
   <%= user.name %>
@@ -10,8 +10,29 @@
   <%= user.email %>
 </p>
 
+<% if topics.present? %>
+<strong>Following Topics:</strong>
 <br>
+<% end %>
 <% topics.each do |topic| %>
   <%= link_to topic.name, topic_path(topic) %>
+  <br>
+<% end %>
+
+<% if following_users.present? %>
+<strong>Following Users:</strong>
+<br>
+<% end %>
+<% following_users.each do |user| %>
+  <%= link_to user.name, topic_path(user) %>
+  <br>
+<% end %>
+
+<% if follower_users.present? %>
+<strong>Followers</strong>
+<br>
+<% end %>
+<% follower_users.each do |user| %>
+  <%= link_to user.name, topic_path(user) %>
   <br>
 <% end %>

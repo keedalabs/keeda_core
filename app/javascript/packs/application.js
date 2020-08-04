@@ -20,3 +20,10 @@ import 'jquery'
 // const imagePath = (name) => images(name, true)
 
 import "controllers"
+
+const ready = () => $('.ckeditor').each(function() {
+    return CKEDITOR.replace($(this).attr('id'));
+});
+
+$(document).ready(ready);
+$(document).on('page:load', ready);

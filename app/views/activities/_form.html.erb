@@ -1,14 +1,14 @@
 <% parent_activity ||= nil %>
+<% parent_id ||= nil %>
 <% verb ||= nil %>
-<% topic ||= nil %>
+<% topic ||= activity.topics %>
 <% collapse_id ||= nil %>
 
-<div data-controller='activity'>
+<div data-controller='activity new-activity'>
   <%= form_with(model: activity, data: { action: 'ajax:success->activity#clearInput' }) do |form| %>
     <% if activity.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(activity.errors.count, "error") %> prohibited this activity from being saved:</h2>
-
         <ul>
           <% activity.errors.full_messages.each do |message| %>
             <li><%= message %></li>
@@ -16,35 +16,82 @@
         </ul>
       </div>
     <% end %>
+    <% if verb!='reply' %>
+      <div class="field" data-target="new-activity.heading" data-action="focusin->new-activity#showWholeForm">
+        <%= form.label :heading %>
+        <%= form.text_field :heading, data: { target: 'activity.heading' }  %>
+      </div>
+    <% end %>
+
     <% if verb.present? %>
       <%= form.hidden_field :verb, value: verb %>
     <% else %>
-      <div class="field">
+      <div class="field new_activity" data-target="new-activity.verb">
         <%= form.label :verb %>
         <%= form.text_field :verb, data: { target: 'activity.verb' }  %>
       </div>
     <% end %>
-    <% if verb=='reply' %>
-      <%= form.text_area :content, data: { target: 'activity.content' } %>
+    <% if verb=='reply'%>
+      <div class="field" data-target="new-activity.content">
+      <%= form.cktext_area :content, id: "contentreply"+parent_activity.id.to_i.to_s, data: { target: 'activity.content' } %>
+      </div>
     <% else %>
-      <div class="field">
+      <div class="field new_activity" data-target="new-activity.content">
         <%= form.label :content %>
-        <%= form.rich_text_area :content, data: { target: 'activity.content' } %>
+        <%= form.cktext_area :content, id: "content"+activity.id.to_i.to_s, data: { target: 'activity.content' } %>
       </div>
     <% end %>
 
     <% if topic.present? and verb!='reply' %>
-      <%= form.hidden_field :topics, value: topic.name, data: { target: 'activity.topic' } %>
+      <%= form.hidden_field :topics, value: topic, data: { target: 'activity.topic' } %>
+    <% elsif verb!='reply' %>
+      <div class="field new_activity" data-target="new-activity.topic">
+        <%= form.label :topic %>
+        <%= form.text_field :topic, data: { target: 'activity.topic' }  %>
+      </div>
     <% end %>
+
 
 
     <% if parent_activity&.present? %>
       <%= form.hidden_field :parent_activity_id, value: parent_activity.id %>
     <% end %>
+    <% if parent_id&.present? %>
+      <%= form.hidden_field :parent_id, value: parent_id %>
+    <% end %>
+
+    <% if verb=='event' %>
+      <div class="field">
+      <%= form.label :starttime %>
+        <%= form.text_field :starttime,
+                         data: {
+                             controller: "flatpickr",
+                         } %>
+      </div>
+      <div class="field">
+        <%= form.label :endtime %>
+        <%= form.text_field :starttime,
+                            data: {
+                                controller: "flatpickr",
+                            } %>
+      </div>
+      <div>
+        <%= form.label :address %>
+        <%= form.text_field :address %>
+      </div>
+      <div>
+        <%= form.label :longitude %>
+        <%= form.text_field :longitude%>
+      </div>
+      <div>
+        <%= form.label :latitude %>
+        <%= form.text_field :latitude %>
+      </div>
+    <% end %>
+
     <div class="actions">
       <% if collapse_id.present? %>
-        <!--        <button type="submit" data-toggle="collapse" href="<%#= collapse_id %>" role="button" aria-expanded="false" aria-controls="<%#= collapse_id %>">save</button>-->
-        <%= form.submit %>
+        <button type="submit" data-toggle="collapse" href="#<%= collapse_id %>" role="button" aria-expanded="false" aria-controls="#<%= collapse_id %>">save</button>
       <% else %>
         <%= form.submit %>
       <% end %>

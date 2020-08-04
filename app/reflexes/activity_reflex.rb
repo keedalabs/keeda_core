@@ -28,4 +28,9 @@ class ActivityReflex < ApplicationReflex
     reaction.persisted? ? reaction.destroy : reaction.save
     morph "#activity_#{activity.id}likecount", activity.reactions.where(verb: 'like').count
   end
+  def share
+    activity = Activity.find_by(id: element.dataset['activity-id'])
+    data = {actor: "User:#{current_user.id}", verb: 'reshared', object: "Activity:#{@activity.id}", foreign_id: "Activity:#{@activity.id}"}
+    topic_feed.add_activity(data)
+  end
 end

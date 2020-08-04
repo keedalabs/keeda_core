@@ -12,7 +12,8 @@
     <%= link_to time_ago_in_words(activity.created_at), activity_path(activity) %>
 
     <div class="float-right"><%= activity.verb %></div>
-
+    <br>
+    <b><%= activity.heading %></b>
   </div>
   <div class="card-body">
     <%= activity.content %>
@@ -33,7 +34,7 @@
     </a>
     <td><%= link_to 'delete', activity, method: :delete, data: { confirm: 'Are you sure?' }, remote:true %></td>
     <div id="collapse<%= dom_id(activity) %>" class="collapse">
-      <%= render :partial => 'activities/form', locals: {parent_activity: activity, activity: Activity.new, topic: topic, verb: 'reply', collapse_id: "collapse"+dom_id(activity)}%>
+      <%= render :partial => 'activities/form', locals: {parent_activity: activity, activity: Activity.new, verb: 'reply', collapse_id: "collapse"+dom_id(activity)}%>
     </div>
     <% if topic.present? %>
       <%= link_to 'Show', topic_activity_path(id: topic.id, activity_id: activity.id) %>
@@ -49,5 +50,15 @@
   </div>
 </div>
 
+<script>
+  console.log(<%= activity.id %>)
+    window.activity_consumer = consumer.subscriptions.create({channel: "ActivityChannel", activity_id: <%= activity.id %>}, {
+        received(data) {
+            console.log(data)
+            if(data.cableReady) CableReady.perform(data.operations)
+            // Called when there's incoming data on the websocket for this channel
+        }
+    });
+</script>
 
 

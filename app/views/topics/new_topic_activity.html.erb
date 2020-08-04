@@ -4,6 +4,6 @@
     <%= render :partial => 'sidebar', locals: { topic: @topic } %>
   </div>
   <div class="col-md-8">
-    <%= render :partial => 'activities/form', locals: { topic: @topic, activity: Activity.new } %>
+    <%= render :partial => 'activities/form', locals: { topic: @topic.name, activity: Activity.new } %>
   </div>
 </div>

@@ -1,4 +1,20 @@
 GIT
+  remote: https://github.com/ClosureTree/closure_tree.git
+  revision: 15b253eab350321ac83668ab2228276eea450db8
+  branch: master
+  specs:
+    closure_tree (7.1.0)
+      activerecord (>= 4.2.10)
+      with_advisory_lock (>= 4.0.0)
+
+GIT
+  remote: https://github.com/galetahub/ckeditor.git
+  revision: f9e48420ccb6dc99f4453397554a6ae60bc2274b
+  specs:
+    ckeditor (5.1.0)
+      orm_adapter (~> 0.5.0)
+
+GIT
   remote: https://github.com/tcocca/acts_as_follower.git
   revision: c5ac7b9601c4af01eb4d9112330b27be4d694ecc
   branch: master
@@ -167,6 +183,7 @@ GEM
     formtastic (3.1.5)
       actionpack (>= 3.2.13)
     formtastic_i18n (0.6.0)
+    geocoder (1.6.3)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     has_scope (0.7.2)
@@ -219,6 +236,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2020.0512)
     mimemagic (0.3.5)
+    mini_magick (4.10.1)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.14.1)
@@ -360,6 +378,8 @@ GEM
     websocket-driver (0.7.2)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    with_advisory_lock (4.6.0)
+      activerecord (>= 4.2)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.3.1)
@@ -378,12 +398,16 @@ DEPENDENCIES
   bootstrap (~> 4.0)
   byebug (= 11.0.1)
   capybara (= 3.28.0)
+  ckeditor!
+  closure_tree!
   devise (~> 4.2)
+  geocoder
   jbuilder (= 2.9.1)
   jquery-rails
   jquery-turbolinks
   kaminari (~> 1.2)
   listen (= 3.1.5)
+  mini_magick
   paper_trail
   pg (~> 1.2, >= 1.2.3)
   puma (= 4.3.5)

@@ -20,8 +20,16 @@ class TopicsController < InheritedResources::Base
 
   def wiki_list
     @topic = Topic.find_by(id: params[:id])
-    @wikis = @topic.activities.where(verb: 'wiki')
+    @wikis = @topic.activities.where(verb: 'book')
+    @new_activity = Activity.new(verb: 'book')
   end
+
+  def event_list
+    @topic = Topic.find_by(id: params[:id])
+    @events = @topic.activities.where(verb: 'event')
+    @new_activity = Activity.new(verb: 'event')
+  end
+
   private
 
     def topic_params

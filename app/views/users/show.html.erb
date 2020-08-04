@@ -3,7 +3,7 @@
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <div class="row">
   <div class="col-md-3">
-    <%= render  partial: 'dashboard/sidebar', locals: {topics: @user.following_by_type('Topic'), user: @user}  %>
+    <%= render  partial: 'dashboard/sidebar', locals: {topics: @user.following_by_type('Topic'), user: @user, following_users: @user.following_by_type('User'), follower_users: @user.followers_by_type('User')}  %>
   </div>
   <div class="col-md-8">
     <%= render  @user.activities.where.not(verb: 'reply')  %>

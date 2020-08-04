@@ -3,9 +3,21 @@
     <%= render :partial => 'sidebar', locals: { topic: @topic } %>
   </div>
   <div class="col-md-8">
-
+    <%= render  partial: 'activities/form', locals: {activity: @new_activity, topic: @topic.name}  %>
+    <div id="dashboard-list">
   <% @wikis.each do |wiki| %>
   <%= render :partial => 'wiki', locals: { wiki: wiki, topic: @topic } %>
 <% end %>
+    </div>
   </div>
 </div>
+
+<script>
+    window.dashboard_consumer = consumer.subscriptions.create({channel: "DashboardChannel", current_user: <%= current_user.id %>}, {
+        received(data) {
+            console.log(data)
+            if(data.cableReady) CableReady.perform(data.operations)
+            // Called when there's incoming data on the websocket for this channel
+        }
+    });
+</script>

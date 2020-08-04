@@ -1,0 +1,14 @@
+<div class="col">
+  <div class="card">
+    <div class="card-body">
+      <p class="card-text"><%= event.content.to_plain_text[0..200] %></p>
+      <%= link_to 'Show', event_index_path(id: topic.id, event_id: event.id, verb: 'event') %>
+      <div>
+        <% event.replies.each do |reply_event| %>
+          <%= render :partial => 'activities/activity', locals: { activity: reply_event, topic: topic } %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+

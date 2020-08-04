@@ -4,6 +4,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 gem 'activeadmin'
 gem 'blazer'
 gem 'paper_trail'
+gem 'ckeditor', github: 'galetahub/ckeditor'
+gem "mini_magick"
 gem 'rails',      '6.0.3'
 gem 'puma',       '4.3.5'
 gem 'bootstrap', '~> 4.0'
@@ -56,3 +58,5 @@ gem 'acts_as_follower', github: 'tcocca/acts_as_follower', branch: 'master'
 gem "kaminari", "~> 1.2"
 
 gem "stream_rails", "~> 2.6"
+gem 'geocoder'
+gem "closure_tree", github: 'ClosureTree/closure_tree', branch: 'master'

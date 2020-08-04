@@ -12,7 +12,7 @@ amazon:
   access_key_id: <%= ENV['AWS_ACCESS_KEY'] %>
   secret_access_key: <%= ENV['AWS_SECRET_KEY'] %>
   region: ap-south-1
-  bucket: youngsphere
+  bucket: keeda
 
 # Remember not to checkin your GCS keyfile to a repository
 # google:

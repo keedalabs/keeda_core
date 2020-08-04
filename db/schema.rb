@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_29_161928) do
+ActiveRecord::Schema.define(version: 2020_08_04_113948) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,7 +68,18 @@ ActiveRecord::Schema.define(version: 2020_07_29_161928) do
     t.integer "parent_activity_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "heading"
+    t.integer "parent_id"
+    t.integer "sort_order"
     t.index ["user_id"], name: "index_activities_on_user_id"
+  end
+
+  create_table "activity_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id", null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations", null: false
+    t.index ["ancestor_id", "descendant_id", "generations"], name: "activity_anc_desc_idx", unique: true
+    t.index ["descendant_id"], name: "activity_desc_idx"
   end
 
   create_table "activity_topics", force: :cascade do |t|
@@ -133,6 +144,27 @@ ActiveRecord::Schema.define(version: 2020_07_29_161928) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
+  end
+
+  create_table "ckeditor_assets", force: :cascade do |t|
+    t.string "data_file_name", null: false
+    t.string "data_content_type"
+    t.integer "data_file_size"
+    t.string "data_fingerprint"
+    t.string "type", limit: 30
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["type"], name: "index_ckeditor_assets_on_type"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.float "latitude"
+    t.float "longitude"
+    t.datetime "starttime"
+    t.datetime "endtime"
+    t.text "address"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "follows", id: :serial, force: :cascade do |t|

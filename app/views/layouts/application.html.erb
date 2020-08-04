@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-      <title>Youngsphere</title>
+      <title>Keeda</title>
       <meta charset="utf-8">
       <%= csrf_meta_tags %>
       <%= csp_meta_tag %>
       <%= action_cable_meta_tag %>
       <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
       <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+      <%= javascript_include_tag Ckeditor.cdn_url, 'data-turbolinks-track': 'reload' %>
+
   </head>
   <body class="sidebar-mini">
       <%= render partial: "layouts/header" %>

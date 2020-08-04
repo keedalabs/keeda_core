@@ -4,11 +4,14 @@
 #
 #  id                 :bigint           not null, primary key
 #  content            :text
+#  heading            :text
 #  object             :json
+#  sort_order         :integer
 #  verb               :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  parent_activity_id :integer
+#  parent_id          :integer
 #  user_id            :bigint           not null
 #
 # Indexes

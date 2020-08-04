@@ -1,5 +1,7 @@
+<% follower_users =  topic.followers_by_type('User')%>
+
 <strong>Name:</strong>
-<%= @topic.name %>
+<%= topic.name %>
 <br>
 <strong>Description:</strong>
 <%= topic.description %>
@@ -17,5 +19,16 @@
 <br>
 <a role="button" href="#" data-reflex="click->Topic#like"
    data-topic-id="<%= topic.id %>">
-  <%= render 'follow', topic: topic %>
+  <%= render 'topics/follow', topic: topic %>
 </a>
+
+
+<br>
+<% if follower_users.present? %>
+  <strong>Followers</strong>
+  <br>
+<% end %>
+<% follower_users.each do |user| %>
+  <%= link_to user.name, topic_path(user) %>
+  <br>
+<% end %>

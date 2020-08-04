@@ -119,15 +119,20 @@
 #              root GET    /                                 blazer/queries#home
 
 Rails.application.routes.draw do
+  mount Ckeditor::Engine => '/ckeditor'
   get 'dashboard/index'
   resources :reactions
   resources :topics
   resources :activities
   resources :scan_images
   resources :scenarios
-  resources :users
   get 'topics/:id/activities/:activity_id', to: 'topics#show', as: 'topic_activity'
+  get 'topics/:id/wiki/:book_id', to: 'book#index', as: 'book_index'
+  get 'topics/:id/event/:event_id', to: 'event#index', as: 'event_index'
+  get 'topics/:id/wiki/:book_id/chapter/:chapter_id', to: 'chapter#index', as: 'chapter_index'
+  get 'topics/:id/wiki/:book_id/chapter/:chapter_id/page/:page_id', to: 'page#index', as: 'page_index'
   get 'topics/:id/wiki', to: 'topics#wiki_list', as: 'topic_wiki_list'
+  get 'topics/:id/events', to: 'topics#event_list', as: 'topic_event_list'
   get 'topics/:id/new_topic_activity', to: 'topics#new_topic_activity', as: 'new_topic_activity'
   get 'activity_replies/:id', to: 'activities#activity_replies', as: 'activity_replies'
   root 'dashboard#index'
@@ -140,6 +145,7 @@ Rails.application.routes.draw do
   # }
   # devise_for :users, ActiveAdmin::Devise.config
   devise_for :users
+  get 'users/:id', to: 'users#show', as: 'user_path'
   #ActiveAdmin.routes(self)
 
   #  views: { sessions: "users/sessions", shared: "users/shared", confirmations: "users/confirmations",

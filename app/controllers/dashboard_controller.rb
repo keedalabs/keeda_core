@@ -6,5 +6,7 @@ class DashboardController < ApplicationController
     enricher = StreamRails::Enrich.new
     @activities = enricher.enrich_activities(results)
     @following_topics = current_user.following_by_type('Topic')
+    @following_users = current_user.following_by_type('User')
+    @follower_users = current_user.followers_by_type('User')
   end
 end

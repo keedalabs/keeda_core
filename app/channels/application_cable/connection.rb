@@ -1,9 +1,14 @@
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
+    identified_by :session_id
     identified_by :current_user
     def connect
-      puts "warden user", env["warden"].user
-      self.current_user = env["warden"].user || reject_unauthorized_connection
+      self.session_id = cookies.encrypted[:session_id]
+      user_id = cookies.encrypted[:user_id]
+      if user_id.present?
+        user = User.find_by(id: user_id)
+        self.current_user = user
+      end
     end
   end
 end

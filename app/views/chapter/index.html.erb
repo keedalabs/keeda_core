@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-md-3">
+    <%= render :partial => 'topics/sidebar', locals: { topic: @topic } %>
+  </div>
+  <div class="col-md-8">
+    <%= render :partial => 'chapter', locals: { activity: @chapter } %>
+    <%= render  partial: 'activities/form', locals: {activity: Activity.new(verb: 'page'), topic: @topic.name, parent_id: @chapter.id}  %>
+    <div id="dashboard-list">
+      <% @pages.each do |page| %>
+        <%= render :partial => 'page', locals: { book: @book, topic: @topic, chapter: @chapter, page: page } %>
+      <% end %>
+    </div>
+  </div>
+</div>

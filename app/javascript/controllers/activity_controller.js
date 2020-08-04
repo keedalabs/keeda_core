@@ -4,16 +4,21 @@ import ApplicationController from './application_controller'
  * Learn more at: https://docs.stimulusreflex.com
  */
 export default class extends ApplicationController {
-    static targets = ['content', 'verb', 'topic'];
+    static targets = ['content', 'verb', 'topic', 'heading'];
     clearInput() {
         this.contentTarget.value = '';
+        CKEDITOR.instances[this.contentTarget.id].setData('');
         if(this.hasVerbTarget) {
             this.verbTarget.value = '';
         }
         if(this.hasTopicTarget) {
+            this.topicTarget.value = '';
             // window.location = '/topics/'+this.topicTarget.value
         }
-
+        if(this.hasHeadingTarget) {
+            this.headingTarget.value = '';
+            // window.location = '/topics/'+this.topicTarget.value
+        }
     }
   /* Reflex specific lifecycle methods.
    * Use methods similar to this example to handle lifecycle concerns for a specific Reflex method.

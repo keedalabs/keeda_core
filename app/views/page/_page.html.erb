@@ -1,0 +1,64 @@
+<% topic ||= nil %>
+<% if activity.verb=='reply'
+     per_page_count = 5
+   else
+     per_page_count = 25
+   end
+   replies = activity.replies.page(1).per(per_page_count)
+%>
+<div class="card" id="<%= dom_id(activity) %>start">
+  <div class="card-title">
+    <%= activity.user.name %>
+    <%= link_to time_ago_in_words(activity.created_at), activity_path(activity) %>
+
+    <div class="float-right"><%= activity.verb %></div>
+    <br>
+    <b><%= activity.heading %></b>
+  </div>
+  <div class="card-body">
+    <%= activity.content %>
+    <div id="editcollapse<%= dom_id(activity) %>" class="collapse">
+      <%= render :partial => 'activities/form', locals: {activity: activity, collapse_id: "editcollapse"+dom_id(activity)} %>
+    </div>
+    Topics:
+    <% activity.topic_list.each do |topic| %>
+      <%= link_to topic.name, topic_path(topic) %>
+    <% end %>
+    <br>
+    <%= render :partial => 'activities/like', locals: {activity: activity} %>
+    <a class="collapsed" data-toggle="collapse" href="#editcollapse<%= dom_id(activity) %>" role="button" aria-expanded="false" aria-controls="editcollapse<%= dom_id(activity) %>">
+      edit
+    </a>
+    <a class="collapsed" data-toggle="collapse" href="#collapse<%= dom_id(activity) %>" role="button" aria-expanded="false" aria-controls="collapse<%= dom_id(activity) %>">
+      reply
+    </a>
+    <td><%= link_to 'delete', activity, method: :delete, data: { confirm: 'Are you sure?' }, remote:true %></td>
+    <div id="collapse<%= dom_id(activity) %>" class="collapse">
+      <%= render :partial => 'activities/form', locals: {parent_activity: activity, activity: Activity.new, verb: 'reply', collapse_id: "collapse"+dom_id(activity)}%>
+    </div>
+    <% if topic.present? %>
+      <%= link_to 'Show', topic_activity_path(id: topic.id, activity_id: activity.id) %>
+    <% end %>
+    <div id="<%= dom_id(activity) %>">
+      <% replies.each do |reply_activity| %>
+        <%= render :partial => 'activities/activity', locals: { activity: reply_activity } %>
+      <% end %>
+    </div>
+    <% if (!replies.last_page? && replies.present?) %>
+      <%= link_to "Load more", activity_replies_path(activity, page: replies.current_page + 1, per_page: per_page_count), id: "load-more-replies"+dom_id(activity), remote: true %>
+    <% end %>
+  </div>
+</div>
+
+<script>
+    console.log(<%= activity.id %>)
+    window.activity_consumer = consumer.subscriptions.create({channel: "ActivityChannel", activity_id: <%= activity.id %>}, {
+        received(data) {
+            console.log(data)
+            if(data.cableReady) CableReady.perform(data.operations)
+            // Called when there's incoming data on the websocket for this channel
+        }
+    });
+</script>
+
+

@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-md-3">
+    <%= render :partial => 'topics/sidebar', locals: { topic: @topic } %>
+  </div>
+  <div class="col-md-8">
+    <%= render :partial => 'page/page', locals: { activity: @page } %>
+
+  </div>
+</div>

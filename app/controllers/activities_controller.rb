@@ -33,7 +33,7 @@ class ActivitiesController < InheritedResources::Base
         ActivityTopic.create!(topic: topic_model, activity: @activity)
       end
 
-      cable_ready["activity"].morph(
+      cable_ready["activity:#{@activity.id}"].morph(
           selector: dom_id(@activity)+ "start",
           html: render_to_string(partial: "activities/activity", locals: {activity: @activity})
       )
@@ -54,7 +54,7 @@ class ActivitiesController < InheritedResources::Base
   def destroy
     @activity  = Activity.find_by(id: params[:id])
     @activity.destroy
-    cable_ready["activity"].remove(
+    cable_ready["activity:#{@activity.id}"].remove(
         selector: dom_id(@activity)+ "start"
     )
     cable_ready.broadcast
@@ -82,7 +82,7 @@ class ActivitiesController < InheritedResources::Base
         topic_feed.add_activity(data)
       end
       if activity_params[:parent_activity_id].present?
-        cable_ready["activity"].insert_adjacent_html(
+        cable_ready["activity:#{@activity.parent_activity.id}"].insert_adjacent_html(
             selector: dom_id(@activity.parent_activity),
             position: "afterBegin",
             html: render_to_string(partial: "activities/activity", locals: {activity: @activity})
@@ -91,6 +91,12 @@ class ActivitiesController < InheritedResources::Base
         #format.html { redirect_to Activity.find_by(id: activity_params[:parent_activity_id]), notice: 'Activity was successfully created.' }
         head :ok
       else
+        cable_ready["dashboard:#{current_user.id}"].insert_adjacent_html(
+            selector: '#dashboard-list',
+            position: "afterBegin",
+            html: render_to_string(partial: "activities/activity", locals: {activity: @activity})
+        )
+        cable_ready.broadcast
         head :ok
       end
     else
@@ -103,7 +109,7 @@ class ActivitiesController < InheritedResources::Base
   private
 
     def activity_params
-      params.require(:activity).permit(:verb, :content, :user_id, :parent_activity_id, :topics, :object)
+      params.require(:activity).permit(:verb, :content, :user_id, :parent_activity_id, :topics, :object, :heading, :parent_id)
     end
 
 end
