@@ -1,0 +1,112 @@
+<% parent_activity ||= nil %>
+<% parent_id ||= nil %>
+<% verb ||= nil %>
+<% topic ||= activity.topics %>
+<% collapse_id ||= nil %>
+
+<div data-controller='activity new-activity places'>
+  <%= form_with(model: activity, data: { action: 'ajax:success->activity#clearInput google-maps-callback@window->places.initMap' }) do |form| %>
+    <% if activity.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(activity.errors.count, "error") %> prohibited this activity from being saved:</h2>
+        <ul>
+          <% activity.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <% if verb!='reply' %>
+      <div class="field" data-target="new-activity.heading" data-action="focusin->new-activity#showWholeForm">
+        <%= form.label :heading %>
+        <%= form.text_field :heading, data: { target: 'activity.heading' }  %>
+      </div>
+    <% end %>
+
+    <% if verb.present? %>
+      <%= form.hidden_field :verb, value: verb %>
+    <% else %>
+      <div class="field new_activity" data-target="new-activity.verb">
+        <%= form.label :verb %>
+        <%= form.text_field :verb, data: { target: 'activity.verb' }  %>
+      </div>
+    <% end %>
+    <% if verb=='reply'%>
+      <div class="field" data-target="new-activity.content">
+      <%= form.cktext_area :content, id: "contentreply"+parent_activity.id.to_i.to_s, data: { target: 'activity.content' } %>
+      </div>
+    <% else %>
+      <div class="field new_activity" data-target="new-activity.content">
+        <%= form.label :content %>
+        <%= form.cktext_area :content, id: "content"+activity.id.to_i.to_s, data: { target: 'activity.content' } %>
+      </div>
+    <% end %>
+
+    <% if topic.present? and verb!='reply' %>
+      <%= form.hidden_field :topics, value: topic, data: { target: 'activity.topic' } %>
+    <% elsif verb!='reply' %>
+      <div class="field new_activity" data-target="new-activity.topic">
+        <%= form.label :topic %>
+        <%= form.text_field :topic, data: { target: 'activity.topic' }  %>
+      </div>
+    <% end %>
+
+
+
+    <% if parent_activity&.present? %>
+      <%= form.hidden_field :parent_activity_id, value: parent_activity.id %>
+    <% end %>
+    <% if parent_id&.present? %>
+      <%= form.hidden_field :parent_id, value: parent_id %>
+    <% end %>
+    <%= 'testing' %>
+    <% if verb=='event' %>
+      <%= 'testing' %>
+      <%= form.fields_for :event, Event.new do |event_form|%>
+        <div class="field">
+          <%= event_form.label :starttime %>
+          <%= event_form.text_field :starttime,
+                              data: {
+                                  controller: "flatpickr",
+                              } %>
+        </div>
+        <div class="field">
+          <%= event_form.label :endtime %>
+          <%= event_form.text_field :endtime,
+                              data: {
+                                  controller: "flatpickr",
+                              } %>
+        </div>
+        <div>
+          <%= event_form.label :address%>
+          <%= event_form.search_field :address , data: { target: "places.field", action: "keydown->places#keydown" } %>
+        </div>
+        <div>
+          <%= event_form.label :latitude %>
+          <%= event_form.text_field :latitude, data: { target: "places.latitude" } %>
+        </div>
+        <div>
+          <%= event_form.label :longitude %>
+          <%= event_form.text_field :longitude, data: { target: "places.longitude" }%>
+        </div>
+
+
+        <div class="p-4">
+          <div data-target="places.map" style="height:400px;width:400px"></div>
+        </div>
+        </div>
+
+      <% end %>
+
+    <% end %>
+
+
+    <div class="actions">
+      <% if collapse_id.present? %>
+        <button type="submit" data-toggle="collapse" href="#<%= collapse_id %>" role="button" aria-expanded="false" aria-controls="#<%= collapse_id %>">save</button>
+      <% else %>
+        <%= form.submit %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

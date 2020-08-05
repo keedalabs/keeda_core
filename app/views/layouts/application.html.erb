@@ -9,6 +9,7 @@
       <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
       <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
       <%= javascript_include_tag Ckeditor.cdn_url, 'data-turbolinks-track': 'reload' %>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAPS_API_KEY'] %>&libraries=places&callback=initMap" defer data-turbolinks-eval="false"></script>
 
   </head>
   <body class="sidebar-mini">

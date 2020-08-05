@@ -60,3 +60,5 @@ gem "kaminari", "~> 1.2"
 gem "stream_rails", "~> 2.6"
 gem 'geocoder'
 gem "closure_tree", github: 'ClosureTree/closure_tree', branch: 'master'
+
+gem "figaro", "~> 1.2"

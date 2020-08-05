@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_04_113948) do
+ActiveRecord::Schema.define(version: 2020_08_04_170542) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -165,6 +165,8 @@ ActiveRecord::Schema.define(version: 2020_08_04_113948) do
     t.text "address"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "activity_id", null: false
+    t.index ["activity_id"], name: "index_events_on_activity_id"
   end
 
   create_table "follows", id: :serial, force: :cascade do |t|
@@ -252,6 +254,7 @@ ActiveRecord::Schema.define(version: 2020_08_04_113948) do
   add_foreign_key "activities", "users"
   add_foreign_key "activity_topics", "activities"
   add_foreign_key "activity_topics", "topics"
+  add_foreign_key "events", "activities"
   add_foreign_key "reactions", "activities"
   add_foreign_key "reactions", "users"
   add_foreign_key "scan_images", "users"

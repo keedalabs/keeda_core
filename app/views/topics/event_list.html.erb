@@ -3,7 +3,7 @@
     <%= render :partial => 'sidebar', locals: { topic: @topic } %>
   </div>
   <div class="col-md-8">
-    <%= render  partial: 'activities/form', locals: {activity: @new_activity, topic: @topic.name, verb: 'event'}  %>
+    <%= render  partial: 'event/form', locals: {activity: @new_activity, topic: @topic.name, verb: 'event'}  %>
     <div id="dashboard-list">
       <% @events.each do |event| %>
         <%= render :partial => 'event', locals: { event: event, topic: @topic } %>

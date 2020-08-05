@@ -27,3 +27,11 @@ const ready = () => $('.ckeditor').each(function() {
 
 $(document).ready(ready);
 $(document).on('page:load', ready);
+
+window.initMap = function(...args) {
+    console.log("I am called again")
+    const event = document.createEvent("Events")
+    event.initEvent("google-maps-callback", true, true)
+    event.args = args
+    window.dispatchEvent(event)
+}
