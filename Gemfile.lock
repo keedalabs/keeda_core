@@ -118,8 +118,6 @@ GEM
       rails (~> 6.0.3)
     attractor-ruby (0.1.0)
       attractor (~> 2.0)
-    autoprefixer-rails (9.8.4)
-      execjs
     aws-eventstream (1.1.0)
     aws-partitions (1.337.0)
     aws-sdk-core (3.102.1)
@@ -154,10 +152,6 @@ GEM
       safely_block (>= 0.1.1)
     bootsnap (1.4.5)
       msgpack (~> 1.0)
-    bootstrap (4.5.0)
-      autoprefixer-rails (>= 9.1.0)
-      popper_js (>= 1.14.3, < 2)
-      sassc-rails (>= 2.0.0)
     builder (3.2.4)
     byebug (11.0.1)
     cable_ready (4.3.0)
@@ -197,7 +191,6 @@ GEM
     errbase (0.2.0)
     erubi (1.9.0)
     excon (0.75.0)
-    execjs (2.7.0)
     faraday (0.17.3)
       multipart-post (>= 1.2, < 3)
     fattr (2.4.0)
@@ -311,7 +304,6 @@ GEM
     pg (1.2.3)
     polyamorous (2.3.2)
       activerecord (>= 5.2.1)
-    popper_js (1.16.0)
     public_suffix (4.0.5)
     puma (4.3.5)
       nio4r (~> 2.0)
@@ -469,7 +461,6 @@ DEPENDENCIES
   binding_of_caller
   blazer
   bootsnap (= 1.4.5)
-  bootstrap (~> 4.0)
   byebug (= 11.0.1)
   capybara (= 3.28.0)
   ckeditor!
