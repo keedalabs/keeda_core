@@ -9,6 +9,7 @@ gem "mini_magick"
 gem 'rails',      '6.0.3'
 gem 'puma',       '4.3.5'
 gem 'rubyzip'
+gem 'strong_migrations'
 # gem 'sassc-rails', '>= 2.1.0'
 gem 'jquery-rails'
 gem 'jquery-turbolinks'
@@ -24,8 +25,12 @@ gem 'aws-sdk-s3', '1.72.0'
 gem 's3_uploader', '~> 0.2.3'
 gem 'aws-sdk-rekognition', '1.41.0'
 gem 'pg', '~> 1.2', '>= 1.2.3'
+gem "administrate"
+gem 'rollbar'
+gem 'bullet'
 group :development, :test do
   gem 'byebug',  '11.0.1', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'brakeman'
 end
 
 group :development do
@@ -34,6 +39,8 @@ group :development do
   gem 'listen',                '3.1.5'
   gem 'spring',                '2.1.0'
   gem 'spring-watcher-listen', '2.0.1'
+  gem 'meta_request'
+  gem 'scout_apm'
 end
 
 group :test do
@@ -72,3 +79,7 @@ group :development do
 end
 
 gem "coverband", "~> 4.2"
+
+gem "pghero", "~> 2.7"
+gem 'airbrake'
+gem "sentry-raven", "~> 2.13"

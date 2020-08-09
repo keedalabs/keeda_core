@@ -119,6 +119,20 @@
 #              root GET    /                                 blazer/queries#home
 
 Rails.application.routes.draw do
+  namespace :admin do
+      resources :users
+      resources :reactions
+      resources :activities
+      resources :topics
+      resources :scan_images
+      resources :scenarios
+      resources :activity_topics
+      resources :events
+      resources :activity_hierarchies
+      resources :follows
+
+      root to: "users#index"
+    end
   mount Ckeditor::Engine => '/ckeditor'
   mount Attractor::Rails::Engine, at: "/attractor" if Rails.env.development?
   mount Coverband::Reporters::Web.new, at: '/coverage'
@@ -142,6 +156,7 @@ Rails.application.routes.draw do
   get 'activity_replies/:id', to: 'activities#activity_replies', as: 'activity_replies'
   root 'dashboard#index'
   mount Blazer::Engine, at: "blazer"
+  mount PgHero::Engine, at: "pghero"
   # resources :users
   # devise_for :users, path_names: {
   #   sign_in: 'login', sign_out: 'logout',
