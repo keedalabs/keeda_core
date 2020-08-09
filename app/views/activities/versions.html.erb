@@ -1,0 +1,28 @@
+# show.html.erb
+<h2>Versions</h2>
+<table class='table'>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Modifier</th>
+    <th>Action</th>
+    <th>Changes</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @activity.versions.each do |version| %>
+    <%= tag.tr do %>
+      <%= tag.td version.id %>
+      <%= tag.td version.whodunnit %>
+      <%= tag.td link_to 'rollback', activities_rollback_path(id: @activity.id, version: version) %>
+      <%= tag.td do %>
+        <%= tag.ul class: 'list-group' do %>
+          <li class='list-group-item'>
+            <%= version.object %>
+          </li>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% end %>
+  </tbody>
+</table>

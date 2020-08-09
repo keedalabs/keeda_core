@@ -2,8 +2,8 @@
 require 'stream_rails'
 
 StreamRails.configure do |config|
-  config.api_key      = "ed97ces2ru44"
-  config.api_secret   = "dkdd2xh9ah4ezk2m3x7g7n59xq85wmvp367vgvgcunzad8fyndmdrw4sppux6ppt"
+  config.api_key      = ENV['STREAM_API_KEY']
+  config.api_secret   = ENV['STREAM_API_SECRET']
   config.timeout      = 30                  # Optional, defaults to 3
   config.location     = 'us-east'           # Optional, defaults to 'us-east'
   config.api_hostname = 'stream-io-api.com' # Optional, defaults to 'stream-io-api.com'

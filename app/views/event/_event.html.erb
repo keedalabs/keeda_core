@@ -1,8 +1,8 @@
 <% topic ||= nil %>
 <% if activity.verb=='reply'
-     per_page_count = 5
+     per_page_count = 3
    else
-     per_page_count = 25
+     per_page_count = 5
    end
    replies = activity.replies.page(1).per(per_page_count)
 %>
@@ -16,9 +16,34 @@
     <b><%= activity.heading %></b>
   </div>
   <div class="card-body">
-    <%= activity.content %>
+    <div x-data="{ open: true }">
+      <div x-show="open">
+        <div id="<%= dom_id(activity) %>content">
+          <%= activity.content %>
+          <div>
+            <%= activity.event.try(:starttime) %>
+          </div>
+          <div>
+            <%= activity.event.try(:endtime) %>
+          </div>
+          <div>
+            <%= activity.event.try(:address) %>
+          </div>
+          <div>
+            <%= activity.event.try(:latitude) %>
+          </div>
+          <div>
+            <%= activity.event.try(:longitude) %>
+          </div>
+          <div>
+            <%= activity.event.try(:latitude) %>
+          </div>
+          <iframe src="https://maps.google.com/maps?q=<%= activity.event.try(:latitude) %>, <%= activity.event.try(:longitude) %>&z=15&output=embed" width="360" height="270" frameborder="0" style="border:0"></iframe>
+        </div>
+      </div>
+
     <div id="editcollapse<%= dom_id(activity) %>" class="collapse">
-      <%= render :partial => 'activities/form', locals: {activity: activity, collapse_id: "editcollapse"+dom_id(activity)} %>
+      <%= render :partial => 'event/form', locals: {activity: activity, collapse_id: "editcollapse"+dom_id(activity), verb: 'event'} %>
     </div>
     Topics:
     <% activity.topic_list.each do |topic| %>
@@ -26,7 +51,7 @@
     <% end %>
     <br>
     <%= render :partial => 'activities/like', locals: {activity: activity} %>
-    <a class="collapsed" data-toggle="collapse" href="#editcollapse<%= dom_id(activity) %>" role="button" aria-expanded="false" aria-controls="editcollapse<%= dom_id(activity) %>">
+    <a class="collapsed" data-toggle="collapse" href="#editcollapse<%= dom_id(activity) %>" role="button" aria-expanded="false" aria-controls="editcollapse<%= dom_id(activity) %>" @click="open = false">
       edit
     </a>
     <a class="collapsed" data-toggle="collapse" href="#collapse<%= dom_id(activity) %>" role="button" aria-expanded="false" aria-controls="collapse<%= dom_id(activity) %>">

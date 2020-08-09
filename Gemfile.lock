@@ -98,6 +98,26 @@ GEM
       rake (>= 10.4, < 14.0)
     arbre (1.2.1)
       activesupport (>= 3.0.0)
+    arrayfields (4.9.2)
+    attractor (2.0.4)
+      churn (>= 1.0.4)
+      descriptive_statistics
+      flog (~> 4.0)
+      launchy
+      listen (~> 3.0)
+      rack-livereload
+      sinatra
+      thor
+      tilt
+    attractor-javascript (0.1.0)
+      attractor (~> 2.0)
+    attractor-rails (0.1.1)
+      attractor (>= 2.0.3)
+      attractor-javascript (~> 0.1)
+      attractor-ruby (~> 0.1)
+      rails (~> 6.0.3)
+    attractor-ruby (0.1.0)
+      attractor (~> 2.0)
     autoprefixer-rails (9.8.4)
       execjs
     aws-eventstream (1.1.0)
@@ -120,7 +140,13 @@ GEM
     aws-sigv4 (1.2.1)
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.13)
+    better_errors (2.7.1)
+      coderay (>= 1.0.0)
+      erubi (>= 1.0.0)
+      rack (>= 0.9.0)
     bindex (0.8.1)
+    binding_of_caller (0.8.0)
+      debug_inspector (>= 0.0.1)
     blazer (2.2.6)
       activerecord (>= 5)
       chartkick (>= 3.2)
@@ -147,9 +173,21 @@ GEM
     chartkick (3.3.2)
     childprocess (2.0.0)
       rake (< 13.0)
+    chronic (0.10.2)
+    churn (1.0.8)
+      chronic (>= 0.2.3)
+      hirb
+      main
+      ruby_parser (~> 3.0)
+      sexp_processor (~> 4.1)
+    coderay (1.1.3)
     concurrent-ruby (1.1.6)
     connection_pool (2.2.3)
+    coverband (4.2.7)
+      redis
     crass (1.0.6)
+    debug_inspector (0.0.3)
+    descriptive_statistics (2.5.1)
     devise (4.7.2)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -162,9 +200,14 @@ GEM
     execjs (2.7.0)
     faraday (0.17.3)
       multipart-post (>= 1.2, < 3)
+    fattr (2.4.0)
     ffi (1.13.1)
     figaro (1.2.0)
       thor (>= 0.14.0, < 2)
+    flog (4.6.4)
+      path_expander (~> 1.0)
+      ruby_parser (~> 3.1, > 3.1.0)
+      sexp_processor (~> 4.8)
     fog-aws (3.6.6)
       fog-core (~> 2.1)
       fog-json (~> 1.1)
@@ -181,6 +224,7 @@ GEM
     fog-xml (0.1.3)
       fog-core
       nokogiri (>= 1.5.11, < 2.0.0)
+    foreman (0.87.2)
     formatador (0.2.5)
     formtastic (3.1.5)
       actionpack (>= 3.2.13)
@@ -191,6 +235,7 @@ GEM
     has_scope (0.7.2)
       actionpack (>= 4.1)
       activesupport (>= 4.1)
+    hirb (0.7.3)
     i18n (1.8.3)
       concurrent-ruby (~> 1.0)
     inherited_resources (1.11.0)
@@ -222,6 +267,8 @@ GEM
       activerecord
       kaminari-core (= 1.2.1)
     kaminari-core (1.2.1)
+    launchy (2.5.0)
+      addressable (~> 2.7)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -231,6 +278,12 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
+    main (6.2.3)
+      arrayfields (~> 4.7, >= 4.7.4)
+      chronic (~> 0.6, >= 0.6.2)
+      fattr (~> 2.2, >= 2.2.0)
+      map (~> 6.1, >= 6.1.0)
+    map (6.6.0)
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     method_source (1.0.0)
@@ -245,6 +298,8 @@ GEM
     msgpack (1.3.3)
     multi_json (1.14.1)
     multipart-post (2.1.1)
+    mustermann (1.1.1)
+      ruby2_keywords (~> 0.0.1)
     nio4r (2.5.2)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
@@ -252,6 +307,7 @@ GEM
     paper_trail (10.3.1)
       activerecord (>= 4.2)
       request_store (~> 1.1)
+    path_expander (1.1.0)
     pg (1.2.3)
     polyamorous (2.3.2)
       activerecord (>= 5.2.1)
@@ -260,6 +316,10 @@ GEM
     puma (4.3.5)
       nio4r (~> 2.0)
     rack (2.2.3)
+    rack-livereload (0.3.17)
+      rack
+    rack-protection (2.0.8.1)
+      rack
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
@@ -306,7 +366,10 @@ GEM
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
+    ruby2_keywords (0.0.2)
     ruby_dep (1.5.0)
+    ruby_parser (3.14.2)
+      sexp_processor (~> 4.9)
     rubyzip (1.3.0)
     s3_uploader (0.2.3)
       fog-aws (>= 0.9.4)
@@ -325,10 +388,16 @@ GEM
       childprocess (>= 0.5, < 3.0)
       rubyzip (~> 1.2, >= 1.2.2)
     semantic_range (2.3.0)
+    sexp_processor (4.15.0)
     sidekiq (6.1.1)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
+    sinatra (2.0.8.1)
+      mustermann (~> 1.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.8.1)
+      tilt (~> 2.0)
     spring (2.1.0)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -393,8 +462,11 @@ DEPENDENCIES
   activeadmin
   acts_as_follower!
   annotate
+  attractor-rails
   aws-sdk-rekognition (= 1.41.0)
   aws-sdk-s3 (= 1.72.0)
+  better_errors
+  binding_of_caller
   blazer
   bootsnap (= 1.4.5)
   bootstrap (~> 4.0)
@@ -402,8 +474,10 @@ DEPENDENCIES
   capybara (= 3.28.0)
   ckeditor!
   closure_tree!
+  coverband (~> 4.2)
   devise (~> 4.2)
   figaro (~> 1.2)
+  foreman (~> 0.87.2)
   geocoder
   jbuilder (= 2.9.1)
   jquery-rails

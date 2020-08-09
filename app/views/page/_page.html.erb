@@ -29,6 +29,7 @@
     <a class="collapsed" data-toggle="collapse" href="#editcollapse<%= dom_id(activity) %>" role="button" aria-expanded="false" aria-controls="editcollapse<%= dom_id(activity) %>">
       edit
     </a>
+    <%= link_to 'history', activities_versions_path(id: activity.id) %>
     <a class="collapsed" data-toggle="collapse" href="#collapse<%= dom_id(activity) %>" role="button" aria-expanded="false" aria-controls="collapse<%= dom_id(activity) %>">
       reply
     </a>

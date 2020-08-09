@@ -6,13 +6,14 @@
     <%= render  partial: 'event/form', locals: {activity: @new_activity, topic: @topic.name, verb: 'event'}  %>
     <div id="dashboard-list">
       <% @events.each do |event| %>
-        <%= render :partial => 'event', locals: { event: event, topic: @topic } %>
+        <%= render :partial => 'event/event', locals: { activity: event, topic: @topic } %>
       <% end %>
     </div>
   </div>
 </div>
 
 <script>
+    <% if current_user.present? %>
     window.dashboard_consumer = consumer.subscriptions.create({channel: "DashboardChannel", current_user: <%= current_user.id %>}, {
         received(data) {
             console.log(data)
@@ -20,4 +21,6 @@
             // Called when there's incoming data on the websocket for this channel
         }
     });
+    <% end %>
+
 </script>

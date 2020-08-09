@@ -9,6 +9,9 @@ class ActivitiesController < InheritedResources::Base
     @activity = Activity.find_by(id: params[:id])
     @new_activity = Activity.new
   end
+  def versions
+    @activity = Activity.find_by(id: params[:id])
+  end
   def activity_replies
     @activity = Activity.find_by(id: params[:id])
     puts @activity
@@ -32,11 +35,17 @@ class ActivitiesController < InheritedResources::Base
         topic_model = Topic.where(name: topic).first_or_create!(name:topic)
         ActivityTopic.create!(topic: topic_model, activity: @activity)
       end
-
-      cable_ready["activity:#{@activity.id}"].morph(
-          selector: dom_id(@activity)+ "start",
-          html: render_to_string(partial: "activities/activity", locals: {activity: @activity})
-      )
+      if @activity.verb == 'event'
+        cable_ready["activity:#{@activity.id}"].morph(
+            selector: dom_id(@activity)+ "content",
+            html: render_to_string(partial: "event/update_event", locals: {activity: @activity})
+        )
+      else
+        cable_ready["activity:#{@activity.id}"].morph(
+            selector: dom_id(@activity)+ "content",
+            html: render_to_string(partial: "activities/update_activity", locals: {activity: @activity})
+        )
+      end
       cable_ready.broadcast
       #format.html { redirect_to Activity.find_by(id: activity_params[:parent_activity_id]), notice: 'Activity was successfully created.' }
       head :ok
@@ -48,7 +57,15 @@ class ActivitiesController < InheritedResources::Base
       end
     end
   end
-
+  def rollback
+    @activity = Activity.find(params[:id])
+    version = @activity.versions.find(params[:version])
+    if version.reify.save
+      redirect_to @activity, notice: 'Activity was successfully rollbacked.'
+    else
+      render :show
+    end
+  end
   # DELETE /activities/1
   # DELETE /activities/1.json
   def destroy
@@ -57,6 +74,12 @@ class ActivitiesController < InheritedResources::Base
     cable_ready["activity:#{@activity.id}"].remove(
         selector: dom_id(@activity)+ "start"
     )
+    for topic in @activity.topic_list
+      client = StreamRails.client
+      topic_model = Topic.where(name: topic).first_or_create!(name:topic)
+      topic_feed = client.feed('topic', topic_model.id)
+      topic_feed.Remove_activity("Activity:#{@activity.id}", foreign_id=true)
+    end
     cable_ready.broadcast
     respond_to do |format|
       format.html { redirect_to activities_url, notice: 'Activity was successfully destroyed.' }
@@ -89,6 +112,14 @@ class ActivitiesController < InheritedResources::Base
         )
         cable_ready.broadcast
         #format.html { redirect_to Activity.find_by(id: activity_params[:parent_activity_id]), notice: 'Activity was successfully created.' }
+        head :ok
+      elsif  activity_params[:verb] == 'event'
+        cable_ready["dashboard:#{current_user.id}"].insert_adjacent_html(
+            selector: '#dashboard-list',
+            position: "afterBegin",
+            html: render_to_string(partial: "event/event", locals: {activity: @activity})
+        )
+        cable_ready.broadcast
         head :ok
       else
         cable_ready["dashboard:#{current_user.id}"].insert_adjacent_html(

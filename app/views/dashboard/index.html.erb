@@ -7,7 +7,12 @@
   <div class="col-md-8">
     <%= render  partial: 'activities/form', locals: {activity: Activity.new}  %>
     <div id="dashboard-list">
-      <%= render  @activities.pluck('object')  %>
+    <% @activities.pluck('object').each do |activity| %>
+        <% if activity.class == Activity %>
+      <%= render  activity  %>
+          <% end %>
+      <% end %>
+
     </div>
   </div>
 </div>

@@ -1,0 +1,25 @@
+<div id="<%= dom_id(activity) %>content">
+  <%= activity.content %>
+  <div>
+    <%= activity.event.try(:starttime) %>
+  </div>
+  <div>
+    <%= activity.event.try(:endtime) %>
+  </div>
+  <div>
+    <%= activity.event.try(:address) %>
+  </div>
+  <div>
+    <%= activity.event.try(:latitude) %>
+  </div>
+  <div>
+    <%= activity.event.try(:longitude) %>
+  </div>
+  <div>
+    <%= activity.event.try(:latitude) %>
+  </div>
+  <iframe src="https://maps.google.com/maps?q=<%= activity.event.try(:latitude) %>, <%= activity.event.try(:longitude) %>&z=15&output=embed" width="360" height="270" frameborder="0" style="border:0"></iframe>
+</div>
+<script>
+  window.Alpine.discoverComponents()
+</script>

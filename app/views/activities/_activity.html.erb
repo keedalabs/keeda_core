@@ -16,23 +16,29 @@
     <b><%= activity.heading %></b>
   </div>
   <div class="card-body">
-    <%= activity.content %>
-    <div id="editcollapse<%= dom_id(activity) %>" class="collapse">
-      <%= render :partial => 'activities/form', locals: {activity: activity, collapse_id: "editcollapse"+dom_id(activity)} %>
+    <div x-data="{ open: true }">
+      <div x-show="open">
+        <div id="<%= dom_id(activity) %>content">
+          <%= activity.content %>
+        </div>
+      </div>
+      <div id="editcollapse<%= dom_id(activity) %>" class="collapse">
+        <%= render :partial => 'activities/form', locals: {activity: activity, collapse_id: "editcollapse"+dom_id(activity)} %>
+      </div>
+      Topics:
+      <% activity.topic_list.each do |topic| %>
+        <%= link_to topic.name, topic_path(topic) %>
+      <% end %>
+      <br>
+      <%= render :partial => 'activities/like', locals: {activity: activity} %>
+      <a class="collapsed" data-toggle="collapse" href="#editcollapse<%= dom_id(activity) %>" role="button" aria-expanded="false" aria-controls="editcollapse<%= dom_id(activity) %>" @click="open = false">
+        edit
+      </a>
+      <a class="collapsed" data-toggle="collapse" href="#collapse<%= dom_id(activity) %>" role="button" aria-expanded="false" aria-controls="collapse<%= dom_id(activity) %>">
+        reply
+      </a>
+      <%= link_to 'delete', activity, method: :delete, data: { confirm: 'Are you sure?' }, remote:true %>
     </div>
-    Topics:
-    <% activity.topic_list.each do |topic| %>
-      <%= link_to topic.name, topic_path(topic) %>
-    <% end %>
-    <br>
-    <%= render :partial => 'activities/like', locals: {activity: activity} %>
-    <a class="collapsed" data-toggle="collapse" href="#editcollapse<%= dom_id(activity) %>" role="button" aria-expanded="false" aria-controls="editcollapse<%= dom_id(activity) %>">
-      edit
-    </a>
-    <a class="collapsed" data-toggle="collapse" href="#collapse<%= dom_id(activity) %>" role="button" aria-expanded="false" aria-controls="collapse<%= dom_id(activity) %>">
-      reply
-    </a>
-    <td><%= link_to 'delete', activity, method: :delete, data: { confirm: 'Are you sure?' }, remote:true %></td>
     <div id="collapse<%= dom_id(activity) %>" class="collapse">
       <%= render :partial => 'activities/form', locals: {parent_activity: activity, activity: Activity.new, verb: 'reply', collapse_id: "collapse"+dom_id(activity)}%>
     </div>
@@ -51,7 +57,7 @@
 </div>
 
 <script>
-  console.log(<%= activity.id %>)
+    console.log(<%= activity.id %>)
     window.activity_consumer = consumer.subscriptions.create({channel: "ActivityChannel", activity_id: <%= activity.id %>}, {
         received(data) {
             console.log(data)

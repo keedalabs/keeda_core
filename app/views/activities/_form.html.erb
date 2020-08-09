@@ -4,8 +4,8 @@
 <% topic ||= activity.topics %>
 <% collapse_id ||= nil %>
 
-<div data-controller='activity new-activity'>
-  <%= form_with(model: activity, data: { action: 'ajax:success->activity#clearInput' }) do |form| %>
+<div data-controller='new-activity'>
+  <%= form_with(model: activity, data: { action: '' }) do |form| %>
     <% if activity.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(activity.errors.count, "error") %> prohibited this activity from being saved:</h2>
@@ -89,7 +89,7 @@
       </div>
     <% end %>
 
-    <div class="actions">
+    <div class="actions" @click="open = true">
       <% if collapse_id.present? %>
         <button type="submit" data-toggle="collapse" href="#<%= collapse_id %>" role="button" aria-expanded="false" aria-controls="#<%= collapse_id %>">save</button>
       <% else %>

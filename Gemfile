@@ -62,3 +62,13 @@ gem 'geocoder'
 gem "closure_tree", github: 'ClosureTree/closure_tree', branch: 'master'
 
 gem "figaro", "~> 1.2"
+
+gem "foreman", "~> 0.87.2"
+
+group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'attractor-rails'
+end
+
+gem "coverband", "~> 4.2"

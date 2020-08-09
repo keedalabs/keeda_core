@@ -120,12 +120,17 @@
 
 Rails.application.routes.draw do
   mount Ckeditor::Engine => '/ckeditor'
+  mount Attractor::Rails::Engine, at: "/attractor" if Rails.env.development?
+  mount Coverband::Reporters::Web.new, at: '/coverage'
   get 'dashboard/index'
   resources :reactions
   resources :topics
+  get 'activities/rollback'
+  get 'activities/versions'
   resources :activities
   resources :scan_images
   resources :scenarios
+
   get 'topics/:id/activities/:activity_id', to: 'topics#show', as: 'topic_activity'
   get 'topics/:id/wiki/:book_id', to: 'book#index', as: 'book_index'
   get 'topics/:id/event/:event_id', to: 'event#index', as: 'event_index'
