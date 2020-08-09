@@ -8,6 +8,7 @@ gem 'ckeditor', github: 'galetahub/ckeditor'
 gem "mini_magick"
 gem 'rails',      '6.0.3'
 gem 'puma',       '4.3.5'
+gem 'rubyzip'
 # gem 'sassc-rails', '>= 2.1.0'
 gem 'jquery-rails'
 gem 'jquery-turbolinks'
