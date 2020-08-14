@@ -10,7 +10,18 @@
       </ul>
     </div>
   <% end %>
+  <div class="field">
+    <div class="row">
+      <div class="col-sm-4">
+        <%= image_tag topic_avatar(topic, 100), class: "rounded-circle" %>
+      </div>
 
+      <div class="col-sm-8">
+        <%= form.label :avatar %><br/>
+        <%= form.file_field :avatar %>
+      </div>
+    </div>
+  </div>
   <div class="field">
     <%= form.label :name %>
     <%= form.text_field :name %>

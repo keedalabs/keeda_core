@@ -4,7 +4,9 @@ class ActivitiesController < InheritedResources::Base
   def new
     @activity  = Activity.new
   end
-
+  def index
+    @activities = Activity.all
+  end
   def show
     @activity = Activity.find_by(id: params[:id])
     @new_activity = Activity.new
@@ -14,9 +16,6 @@ class ActivitiesController < InheritedResources::Base
   end
   def activity_replies
     @activity = Activity.find_by(id: params[:id])
-    puts @activity
-    puts @activity.id
-    puts dom_id(@activity)
     @replies = @activity.replies.page(params[:page]).per(params[:per_page])
     @per_page_count = params[:per_page]
   end
@@ -140,7 +139,7 @@ class ActivitiesController < InheritedResources::Base
   private
 
     def activity_params
-      params.require(:activity).permit(:verb, :content, :user_id, :parent_activity_id, :topics, :object, :heading, :parent_id, event_attributes: [:address, :latitude, :longitude, :starttime, :endtime])
+      params.require(:activity).permit(:verb, :content, :user_id, :parent_activity_id, :topics, :object, :heading, :parent_id, :page, :per_page, event_attributes: [:address, :latitude, :longitude, :starttime, :endtime])
     end
 
 end

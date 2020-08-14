@@ -1,8 +1,8 @@
 <% topic ||= nil %>
 <% if activity.verb=='reply'
-     per_page_count = 5
+     per_page_count = 3
    else
-     per_page_count = 25
+     per_page_count = 5
    end
    replies = activity.replies.page(1).per(per_page_count)
 %>

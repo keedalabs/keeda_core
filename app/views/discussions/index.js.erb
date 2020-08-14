@@ -1,0 +1,7 @@
+$("#discussions").append("<%= j(render(partial: "activities/activity_division", locals:{display_activities: @activities})) %>");
+console.log(<%= @activities.current_page %>, <%= @activities.current_page + 1 %>)
+<% if @activities.last_page? %>
+$("#load-more-discussions").hide();
+<% else %>
+$("#load-more-discussions").attr("href", "<%= discussions_path(page: @activities.current_page + 1,search: @search, per_page: @per_page_count) %>");
+<% end %>

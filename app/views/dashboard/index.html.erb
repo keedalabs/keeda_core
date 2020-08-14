@@ -2,7 +2,7 @@
 
 <div class="row">
   <div class="col-md-3">
-    <%= render  partial: 'dashboard/sidebar', locals: {topics: @following_topics, user:current_user, following_users: @following_users, follower_users: @follower_users}  %>
+    <%= render  partial: 'dashboard/sidebar', locals: {following_topics: @following_topics, user:current_user, following_users: @following_users, follower_users: @follower_users}  %>
   </div>
   <div class="col-md-8">
     <%= render  partial: 'activities/form', locals: {activity: Activity.new}  %>
@@ -18,6 +18,7 @@
 </div>
 
 <script>
+    <% if current_user.present? %>
     window.dashboard_consumer = consumer.subscriptions.create({channel: "DashboardChannel", current_user: <%= current_user.id %>}, {
         received(data) {
             console.log(data)
@@ -25,5 +26,6 @@
             // Called when there's incoming data on the websocket for this channel
         }
     });
+    <% end %>
 </script>
 

@@ -1,4 +1,4 @@
-<span id="<%= dom_id(topic) %>follow">
+<span id="<%= dom_id(topic) %>follow" class="text-light">
 <% if current_user&.following?(topic) %>
   UnFollow
 <% elsif current_user %>

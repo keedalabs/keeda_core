@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Events</h1>
+<div data-controller='maplessplaces'>
+  <%= form_tag(events_path, method: 'get') do %>
+  <div>
+    <%= label_tag(:search, :search) %>
+    <%= text_field_tag(:search, params[:search]) %>
+  </div>
+  <div>
+    <%= label_tag(:address, :address) %>
+    <%= text_field_tag(:address, params[:address], data: { target: "maplessplaces.field", action: "keydown->maplessplaces#keydown" }) %>
+  </div>
+  <div>
+    <%= label_tag(:longitude, :longitude) %>
+    <%= text_field_tag(:longitude, params[:longitude], data: { target: "maplessplaces.longitude" }) %>
+  </div>
+  <div>
+    <%= label_tag(:latitude, :latitude) %>
+    <%= text_field_tag(:latitude, params[:latitude], data: { target: "maplessplaces.latitude" }) %>
+  </div>
+  <%= submit_tag("Search", name: nil) %>
+  <% end %>
+</div>
+<div id="events">
+  <%= render :partial => 'activities/activity_division', locals: { display_activities: @activities } %>
+</div>
+<br>
+<%= link_to "Load more", events_path(page: @activities.current_page + 1, per_page: @per_page_count), id: "load-more-events", remote: true %>
+
+<%= render  partial: 'event/form', locals: {activity: Activity.new, verb: 'event'}  %>

@@ -28,6 +28,15 @@ gem 'pg', '~> 1.2', '>= 1.2.3'
 gem "administrate"
 gem 'rollbar'
 gem 'bullet'
+gem 'omniauth-facebook'
+# Use Omniauth Github plugin
+gem 'omniauth-github'
+# Use Omniauth Google plugin
+gem 'omniauth-google-oauth2'
+# Use Omniauth Twitter plugin
+gem 'omniauth-twitter'
+gem 'social-share-button'
+gem 'local_time'
 group :development, :test do
   gem 'byebug',  '11.0.1', platforms: [:mri, :mingw, :x64_mingw]
   gem 'brakeman'
@@ -73,8 +82,6 @@ gem "figaro", "~> 1.2"
 gem "foreman", "~> 0.87.2"
 
 group :development do
-  gem 'better_errors'
-  gem 'binding_of_caller'
   gem 'attractor-rails'
 end
 
@@ -83,3 +90,8 @@ gem "coverband", "~> 4.2"
 gem "pghero", "~> 2.7"
 gem 'airbrake'
 gem "sentry-raven", "~> 2.13"
+gem 'letter_avatar'
+
+gem "algoliasearch-rails", "~> 1.24"
+
+gem "cancancan", "~> 3.1"

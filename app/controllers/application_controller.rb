@@ -20,19 +20,17 @@ class ApplicationController < ActionController::Base
 
 
     protected
-    def authenticate_user!
-        if user_signed_in?
-            super
-        else
-            redirect_to new_user_session_path, :notice => 'if you want to add a notice'
-            ## if you want render 404 page
-            ## render :file => File.join(Rails.root, 'public/404'), :formats => [:html], :status => 404, :layout => false
-        end
-    end
+    #def authenticate_user!
+    #    if user_signed_in?
+    #        super
+    #    else
+    #        redirect_to new_user_session_path, :notice => 'if you want to add a notice'
+    #        ## if you want render 404 page
+    #        ## render :file => File.join(Rails.root, 'public/404'), :formats => [:html], :status => 404, :layout => false
+    #    end
+    #end
     def configure_permitted_parameters
-        devise_parameter_sanitizer.permit(:sign_up) do |user_params|
-        user_params.permit({ roles: [] }, :name, :email, :password, :password_confirmation)
-        end
+        devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :avatar, :email, :password, :password_confirmation])
     end
     private
 

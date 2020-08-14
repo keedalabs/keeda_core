@@ -1,60 +1,87 @@
 <% topic ||= nil %>
 <% if activity.verb=='reply'
-     per_page_count = 5
+     per_page_count = 3
    else
-     per_page_count = 25
+     per_page_count = 5
    end
    replies = activity.replies.page(1).per(per_page_count)
 %>
-<div class="card" id="<%= dom_id(activity) %>start">
-  <div class="card-title">
-    <%= activity.user.name %>
-    <%= link_to time_ago_in_words(activity.created_at), activity_path(activity) %>
-
-    <div class="float-right"><%= activity.verb %></div>
-    <br>
-    <b><%= activity.heading %></b>
-  </div>
-  <div class="card-body">
-    <div x-data="{ open: true }">
-      <div x-show="open">
-        <div id="<%= dom_id(activity) %>content">
-          <%= activity.content %>
+<% conditional_div(:show_div => activity.verb!= 'reply', :class => 'outline') do %>
+  <div class="card card-b-none" id="<%= dom_id(activity) %>start">
+    <div class="card-body">
+      <div class="row post-contains">
+        <div class="col-sm-1 text-center">
+          <%= image_tag user_avatar(activity.user, 100), class:"team-circle mr-2" %>
+        </div>
+        <div class="col-sm-11 mt-0 pl-0 pt-2">
+          <span class="post-name">@<%=activity.user.name %></span>
+          <small class="post-day"><%= link_to time_ago_in_words(activity.created_at), activity_path(activity) %></small>
+          <span class="post-type badge badge-secondary"><%= activity.verb %></span>
         </div>
       </div>
-      <div id="editcollapse<%= dom_id(activity) %>" class="collapse">
-        <%= render :partial => 'activities/form', locals: {activity: activity, collapse_id: "editcollapse"+dom_id(activity)} %>
+      <div class="row post-contains pt-0" x-data="{ open: true }" >
+        <div class="col-sm-1">
+        </div>
+        <div class="col-sm-11 mt-0 pl-0 pt-0" >
+          <div x-show="open">
+            <h5><%= activity.heading %></h5>
+            <div id="<%= dom_id(activity) %>content">
+              <%= activity.content %>
+            </div>
+            <% activity.topic_list.each do |topic| %>
+              <span class="badge badge-secondary"><%= link_to topic.name, topic_path(topic) %></span>
+            <% end %>
+          </div>
+          <div id="editcollapse<%= dom_id(activity) %>" class="collapse">
+            <%= render :partial => 'activities/form', locals: {activity: activity, collapse_id: "editcollapse"+dom_id(activity)} %>
+          </div>
+          <%= render :partial => 'activities/like', locals: {activity: activity} %>
+          <a class="collapsed" data-toggle="collapse" href="#editcollapse<%= dom_id(activity) %>" role="button" aria-expanded="false" aria-controls="editcollapse<%= dom_id(activity) %>" @click="open = false">
+            edit
+          </a>
+          <a class="collapsed" data-toggle="collapse" href="#collapse<%= dom_id(activity) %>" role="button" aria-expanded="false" aria-controls="collapse<%= dom_id(activity) %>">
+            reply
+          </a>
+          <%= link_to 'delete', activity, method: :delete, data: { confirm: 'Are you sure?' }, remote:true %>
+          <% if topic.present? %>
+            <%= link_to 'Show', topic_activity_path(id: topic.id, activity_id: activity.id) %>
+          <% end %>
+          <div id="collapse<%= dom_id(activity) %>" class="collapse">
+            <%= render :partial => 'activities/form', locals: {parent_activity: activity, activity: Activity.new, verb: 'new_reply', collapse_id: "collapse"+dom_id(activity)}%>
+          </div>
+        </div>
       </div>
-      Topics:
-      <% activity.topic_list.each do |topic| %>
-        <%= link_to topic.name, topic_path(topic) %>
-      <% end %>
-      <br>
-      <%= render :partial => 'activities/like', locals: {activity: activity} %>
-      <a class="collapsed" data-toggle="collapse" href="#editcollapse<%= dom_id(activity) %>" role="button" aria-expanded="false" aria-controls="editcollapse<%= dom_id(activity) %>" @click="open = false">
-        edit
-      </a>
-      <a class="collapsed" data-toggle="collapse" href="#collapse<%= dom_id(activity) %>" role="button" aria-expanded="false" aria-controls="collapse<%= dom_id(activity) %>">
-        reply
-      </a>
-      <%= link_to 'delete', activity, method: :delete, data: { confirm: 'Are you sure?' }, remote:true %>
+      <div class="row post-contains pt-0">
+        <div class="col-sm-1 pt-2 text-center post-like-status"></div>
+        <div class="col-sm-11 mt-0 pl-0 pt-0">
+          <div class="comments comments-2 pt-2">
+            <span><img src="/assets/Icon awesome-comment@3x.png" alt="" /> 523 comments</span>
+            <span class="dropdown show">
+            <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img src="/assets/Icon awesome-share@3x.png" alt="" />
+                                            Share
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <a class="dropdown-item" href="#"><%= social_share_button_tag(activity.heading) %></a>
+            </div>
+          </span>
+            <span><a href="#"><img src="/assets/Icon material-report@3x.png" alt="" />
+                                            Report</a></span>
+          </div>
+          <div id="<%= dom_id(activity) %>" class="pt-3">
+            <% replies.each do |reply_activity| %>
+              <%= render :partial => 'activities/activity', locals: { activity: reply_activity } %>
+            <% end %>
+          </div>
+          <% if (!replies.last_page? && replies.present?) %>
+            <%= link_to "Load more", activity_replies_path(activity, page: replies.current_page + 1, per_page: per_page_count), id: "load-more-replies"+dom_id(activity), remote: true %>
+          <% end %>
+
+        </div>
+      </div>
     </div>
-    <div id="collapse<%= dom_id(activity) %>" class="collapse">
-      <%= render :partial => 'activities/form', locals: {parent_activity: activity, activity: Activity.new, verb: 'reply', collapse_id: "collapse"+dom_id(activity)}%>
-    </div>
-    <% if topic.present? %>
-      <%= link_to 'Show', topic_activity_path(id: topic.id, activity_id: activity.id) %>
-    <% end %>
-    <div id="<%= dom_id(activity) %>">
-      <% replies.each do |reply_activity| %>
-        <%= render :partial => 'activities/activity', locals: { activity: reply_activity } %>
-      <% end %>
-    </div>
-    <% if (!replies.last_page? && replies.present?) %>
-      <%= link_to "Load more", activity_replies_path(activity, page: replies.current_page + 1, per_page: per_page_count), id: "load-more-replies"+dom_id(activity), remote: true %>
-    <% end %>
   </div>
-</div>
+<% end %>
 
 <script>
     console.log(<%= activity.id %>)

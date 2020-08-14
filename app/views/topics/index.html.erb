@@ -1,21 +1,120 @@
 <p id="notice"><%= notice %></p>
-
-<h1>Topics</h1>
-<div class="row row-cols-2">
-  <% @topics.each do |topic| %>
-  <div class="col">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title"><%= topic.name %></h5>
-        <p class="card-text"><%= topic.description %></p>
-        <%= link_to 'Show', topic, class: "btn btn-primary" %>
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+  <h1 class="display-4">Platform for the future</h1>
+  <p class="lead">
+    Lorem ipsum dolor sit amet, consetetur<br />
+    sadipscing elitr, sed diam nonumy eirmod
+  </p>
+  <!--Search input-->
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="input-group col-md-8 input-group-lg">
+      <input type="text" class="form-control" placeholder="Search for communities or groups or topics!"
+             aria-label="Large" aria-describedby="inputGroup-sizing-sm" />
+      <div class="input-group-prepend">
+        <button class="btn btn-outline-secondary main-search-btn" type="button">
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+            <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+          </svg>
+        </button>
       </div>
     </div>
+    <div class="col-md-2"></div>
   </div>
-  <% end %>
 </div>
 
+<div class="col-md-2"></div>
+</div>
+<!--Trending Group Container-->
+<div class="row group-container">
+  <!--LEFT SIDE menu layout-->
+  <div class="col-md-2">
+    <div>
+      <img class="fired" src="./assets/metro-fire.png" />
+      <span class="heading-5">TRENDING GROUPS</span>
+    </div>
+<!--    change this when we have list of groups -->
+    <ul class="list-unstyled">
+      <li><b>#1</b> Black lives matter</li>
+      <li><b>#2</b> Miyawaki</li>
+      <li><b>#3</b> Trending</li>
+      <li><b>#4</b> Lorem ipsum</li>
+      <li><b>#5</b> Lorem</li>
+      <li><b>#6</b> Lorem</li>
+      <li><b>#8</b> ABC</li>
+      <li><b>#9</b> Trending</li>
+      <li><b>#10</b> Lorem ipsum</li>
+      <li><b>#11</b> Lorem</li>
+      <li><b>#12</b> Lorem</li>
+      <li><b>#13</b> Lorem ipsum</li>
+      <li><b>#14</b> Lorem</li>
+      <li><b>#15</b> Lorem</li>
+    </ul>
+  </div>
+  <!--RIGHT Side thumbnail layou-->
+  <div class="col-md-10">
+    <!--First Row-->
+    <div class="row">
+      <!--Thumbnail 1st column-->
+      <div class="col-sm-4 thumbnail">
+        <div class="card mb-1 box-shadow">
+          <div class="card-body">
+          </div>
+          <span class="thumbnail-circle">
 
-<br>
+          </span>
+        </div>
+        <div class="thumbnail-bottom-label">
+          <b>2k</b>
+          <b>
+            <svg width="1.2em" height="1.2em" viewBox="0 2 16 16" class="bi bi-person-fill" fill="currentColor"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                    d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+            </svg>
+          </b>
+        </div>
+        <div class="thumbnail-content">
+          <span>@HumourSociety</span>
+          <p>
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+          </p>
+        </div>
+      </div>
+      <% @topics.each do |topic| %>
+          <div class="col-sm-4 thumbnail">
+            <%= link_to topic do %>
+            <div class="card mb-1 box-shadow">
+              <div class="card-body">
+              </div>
+              <span class="thumbnail-circle">
+                <%= image_tag topic_avatar(topic, 100), class: "left-circle mr-2" %>
+              </span>
+            </div>
+            <div class="thumbnail-bottom-label">
+              <b>2k</b>
+              <b>
+                <svg width="1.2em" height="1.2em" viewBox="0 2 16 16" class="bi bi-person-fill" fill="currentColor"
+                     xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                        d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                </svg>
+              </b>
+            </div>
+            <div class="thumbnail-content">
+              <span><%= topic.name %></span>
+              <p>
+                <%= topic.description %>
+              </p>
+            </div>
+            <% end %>
+          </div>
 
-<%= link_to 'New Topic', new_topic_path %>
+
+      <% end %>
+    </div>
+  </div>
+</div>
+
+      <%= link_to 'New Topic', new_topic_path %>

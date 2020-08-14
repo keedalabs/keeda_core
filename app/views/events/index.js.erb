@@ -1,0 +1,7 @@
+$("#events").append("<%= j(render(partial: "activities/activity_division", locals:{display_activities: @activities})) %>");
+console.log(<%= @activities.current_page %>, <%= @activities.current_page + 1 %>)
+<% if @activities.last_page? %>
+$("#load-more-events").hide();
+<% else %>
+$("#load-more-events").attr("href", "<%= events_path(page: @activities.current_page + 1, per_page: @per_page_count) %>");
+<% end %>

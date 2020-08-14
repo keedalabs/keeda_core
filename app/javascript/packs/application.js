@@ -12,6 +12,7 @@ import "bootstrap"
 import "../../assets/stylesheets/application.scss"
 import './bootstrap_custom.js'
 import 'jquery'
+require('packs/social-share-button.js.erb')
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
 // or the `imagePath` JavaScript helper below.
@@ -44,3 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Cookies EU Banner accepted')
     })
 })
+
+import LocalTime from "local-time"
+LocalTime.start()

@@ -11,9 +11,11 @@
 #  failed_attempts        :integer          default(0), not null
 #  locked_at              :datetime
 #  name                   :string           default(""), not null
+#  provider               :string(50)       default(""), not null
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
+#  uid                    :string(500)      default(""), not null
 #  unconfirmed_email      :string
 #  unlock_token           :string
 #  created_at             :datetime         not null
@@ -30,10 +32,19 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
     devise :database_authenticatable, 
-         :recoverable, :rememberable, :validatable, :lockable, :registerable
+         :recoverable, :rememberable, :validatable, :lockable, :registerable,
+         :omniauthable, omniauth_providers: [:facebook, :google_oauth2]
     acts_as_followable
     acts_as_follower
     has_many :activities
+    has_one_attached :avatar
+    def self.create_from_provider_data(provider_data)
+        where(provider: provider_data.provider, uid: provider_data.uid).first_or_create do | user |
+            user.email = provider_data.info.email
+            user.password = Devise.friendly_token[0, 20]
+            #user.skip_confirmation!
+        end
+    end
     # before_save { self.email = self.email.downcase }
     # validates :name,  presence: true, length: { minimum:4, maximum: 50 }
     # VALID_EMAIL_REGEX = /\A[\w+-\.]+@([\w+-]+\.)+[\w-]{2,4}\z/

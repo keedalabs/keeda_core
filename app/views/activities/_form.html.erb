@@ -16,7 +16,7 @@
         </ul>
       </div>
     <% end %>
-    <% if verb!='reply' %>
+    <% if verb!='reply' or verb!='new_reply' %>
       <div class="field" data-target="new-activity.heading" data-action="focusin->new-activity#showWholeForm">
         <%= form.label :heading %>
         <%= form.text_field :heading, data: { target: 'activity.heading' }  %>
@@ -33,18 +33,22 @@
     <% end %>
     <% if verb=='reply'%>
       <div class="field" data-target="new-activity.content">
-      <%= form.cktext_area :content, id: "contentreply"+parent_activity.id.to_i.to_s, data: { target: 'activity.content' } %>
+        <%#= form.rich_text_area :content, data: { target: 'activity.content' } %>
+        <input id="<%="contentreply"+parent_activity.id.to_i.to_s %>" type="hidden" name="content" data-target="activity.content">
+        <trix-editor input="<%= "contentreply"+parent_activity.id.to_i.to_s %>"></trix-editor>
       </div>
     <% else %>
       <div class="field new_activity" data-target="new-activity.content">
         <%= form.label :content %>
-        <%= form.cktext_area :content, id: "content"+activity.id.to_i.to_s, data: { target: 'activity.content' } %>
+        <%= form.rich_text_area :content, id: "content"+activity.id.to_i.to_s, data: { target: 'activity.content' } %>
+        <input id="<%="contentreply"+activity.id.to_i.to_s %>" type="hidden" name="content" data-target="activity.content">
+        <trix-editor input="<%= "contentreply"+activity.id.to_i.to_s %>"></trix-editor>
       </div>
     <% end %>
 
     <% if topic.present? and verb!='reply' %>
       <%= form.hidden_field :topics, value: topic, data: { target: 'activity.topic' } %>
-    <% elsif verb!='reply' %>
+    <% elsif verb!='reply' or verb!='new_reply' %>
       <div class="field new_activity" data-target="new-activity.topic">
         <%= form.label :topic %>
         <%= form.text_field :topic, data: { target: 'activity.topic' }  %>
@@ -62,11 +66,11 @@
 
     <% if verb=='event' %>
       <div class="field">
-      <%= form.label :starttime %>
+        <%= form.label :starttime %>
         <%= form.text_field :starttime,
-                         data: {
-                             controller: "flatpickr",
-                         } %>
+                            data: {
+                                controller: "flatpickr",
+                            } %>
       </div>
       <div class="field">
         <%= form.label :endtime %>

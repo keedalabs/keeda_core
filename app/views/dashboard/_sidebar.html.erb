@@ -1,38 +1,60 @@
-
-
-<p>
-  <strong>Name:</strong>
-  <%= user.name %>
-</p>
-
-<p>
-  <strong>Email:</strong>
-  <%= user.email %>
-</p>
-
-<% if topics.present? %>
-<strong>Following Topics:</strong>
-<br>
+<div class="row group-container">
+  <div class="card-body">
+    <div class="row-fluid mb-3">
+      <%= image_tag user_avatar(user, 100), class: "left-circle mr-2" %>
+      <span><b><%= user.name %></b></span>
+    </div>
+    <p><%= user.email %></p>
+  </div>
+  <% if following_topics.any? %>
+    <div class="card-body">
+      <div class="card">
+        <div class="card-body">
+          <span class="heading-5">Following Topics</span>
+          <ul class="list-unstyled team-height">
+            <% following_topics.each do |topic| %>
+              <li>
+                <%= image_tag topic_avatar(topic, 100), class:"team-circle mr-2" %>
+                @<%= topic.name %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <% if follower_users.any? %>
+  <div class="card-body">
+    <div class="card">
+      <div class="card-body">
+        <span class="heading-5">Follower Users</span>
+        <ul class="list-unstyled team-height">
+          <% follower_users.each do |user| %>
+            <li>
+              <%= image_tag user_avatar(user, 100), class:"team-circle mr-2" %>
+              @<%= user.name %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
 <% end %>
-<% topics.each do |topic| %>
-  <%= link_to topic.name, topic_path(topic) %>
-  <br>
+<% if following_users.any? %>
+  <div class="card-body">
+    <div class="card">
+      <div class="card-body">
+        <span class="heading-5">Following Users</span>
+        <ul class="list-unstyled team-height">
+          <% following_users.each do |user| %>
+            <li>
+              <%= image_tag user_avatar(user, 100), class:"team-circle mr-2" %>
+              @<%= user.name %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
 <% end %>
-
-<% if following_users.present? %>
-<strong>Following Users:</strong>
-<br>
-<% end %>
-<% following_users.each do |user| %>
-  <%= link_to user.name, topic_path(user) %>
-  <br>
-<% end %>
-
-<% if follower_users.present? %>
-<strong>Followers</strong>
-<br>
-<% end %>
-<% follower_users.each do |user| %>
-  <%= link_to user.name, topic_path(user) %>
-  <br>
-<% end %>
+</div>

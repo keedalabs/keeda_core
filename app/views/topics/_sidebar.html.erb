@@ -1,34 +1,62 @@
 <% follower_users =  topic.followers_by_type('User')%>
 
-<strong>Name:</strong>
-<%= topic.name %>
-<br>
-<strong>Description:</strong>
-<%= topic.description %>
-<br>
-<%= link_to 'Edit', edit_topic_path(topic) %>
-<br>
-<%= link_to 'Back', topics_path %>
-<br>
-<%= link_to 'Index', topic_path(id:topic.id) %>
-<br>
-<%= link_to 'Wiki', topic_path(id:topic.id, type:'wiki') %>
-<br>
-<%= link_to 'New', new_topic_activity_path(id:topic.id) %>
+<div class="row group-container">
+    <div class="card-body">
+      <div class="row-fluid mb-3">
+        <%= image_tag topic_avatar(topic, 100), class: "left-circle mr-2" %>
+        <span><b><%= topic.name %></b></span>
+      </div>
+      <p><%= topic.description %></p>
+      <ul class="list-unstyled l-height">
+        <li class="member-list">
+          <svg width="1.3em" height="1.3em" viewBox="0 -2 16 16" class="bi bi-person-fill"
+               fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+                  d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+          </svg>
+          <%= follower_users.count %> members
+        </li>
+      </ul>
+      <a role="button" href="#" data-reflex="click->Topic#like"
+         data-topic-id="<%= topic.id %>" class="btn btn-default join-btn">
+        <%= render 'topics/follow', topic: topic %>
+      </a>
+    </div>
+    <div class="card-body">
+      <ul class="list-group">
+          <%= render :partial => 'shared/left_arrow', locals: {link_path: edit_topic_path(topic), link_name: 'Edit'} %>
+        <%= render :partial => 'shared/left_arrow', locals: {link_path: topic_path(topic), link_name: 'All'} %>
+        <%= render :partial => 'shared/left_arrow', locals: {link_path: topic_path(topic), link_name: 'Discussions'} %>
+        <%= render :partial => 'shared/left_arrow', locals: {link_path: topic_path(topic), link_name: 'Events'} %>
+        <%= render :partial => 'shared/left_arrow', locals: {link_path: topic_path(topic), link_name: 'Learning resources'} %>
+      </ul>
+    </div>
 
-<br>
-<a role="button" href="#" data-reflex="click->Topic#like"
-   data-topic-id="<%= topic.id %>">
-  <%= render 'topics/follow', topic: topic %>
-</a>
 
+<div class="card-body">
+  <div class="card">
+    <div class="card-body">
+      <span class="heading-5">TEAM</span>
+      <ul class="list-unstyled team-height">
+        <% follower_users.each do |user| %>
+          <li>
+            <%= image_tag user_avatar(user, 100), class:"team-circle mr-2" %>
+            @<%= user.name %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
 
-<br>
-<% if follower_users.present? %>
-  <strong>Followers</strong>
-  <br>
-<% end %>
-<% follower_users.each do |user| %>
-  <%= link_to user.name, topic_path(user) %>
-  <br>
-<% end %>
+</div>
+
+<!--<br>-->
+<%# if follower_users.present? %>
+<!--  <strong>Followers</strong>-->
+<!--  <br>-->
+<%# end %>
+<%# follower_users.each do |user| %>
+  <%#= link_to user.name, topic_path(user) %>
+<!--  <br>-->
+<%# end %>

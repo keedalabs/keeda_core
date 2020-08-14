@@ -1,15 +1,18 @@
 class TopicsController < InheritedResources::Base
   def show
+    per_page = params[:per_page] || 5
+    page = params[:page] || 1
     @topic = Topic.find_by(id: params[:id])
     if params[:type].present?
-      @display_activities = @topic.activities.where(verb: params[:type])
+      @display_activities = @topic.activities.where(verb: params[:type]).page(page).per(per_page)
     else
-      @display_activities = @topic.activities
+      @display_activities = @topic.activities.page(page).per(per_page)
     end
     if params[:activity_id].present?
       @display_activity = Activity.find_by(id: params[:activity_id])
     end
     @new_activity = Activity.new
+    @per_page_count = params[:per_page]
   end
 
 
@@ -33,7 +36,7 @@ class TopicsController < InheritedResources::Base
   private
 
     def topic_params
-      params.require(:topic).permit(:name, :description, :type)
+      params.require(:topic).permit(:name, :description, :page, :per_page, :type, :avatar)
     end
 
 end

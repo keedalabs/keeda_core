@@ -119,6 +119,8 @@
 #              root GET    /                                 blazer/queries#home
 
 Rails.application.routes.draw do
+  get 'events', to: 'events#index', as: 'events'
+  get 'discussions',to: 'discussions#index', as: 'discussions'
   namespace :admin do
       resources :users
       resources :reactions
@@ -164,8 +166,8 @@ Rails.application.routes.draw do
   #   registration: 'register', edit: 'edit/profile'
   # }
   # devise_for :users, ActiveAdmin::Devise.config
-  devise_for :users
-  get 'users/:id', to: 'users#show', as: 'user_path'
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth' }
+  get 'users/:id', to: 'users#show', as: 'user'
   #ActiveAdmin.routes(self)
 
   #  views: { sessions: "users/sessions", shared: "users/shared", confirmations: "users/confirmations",

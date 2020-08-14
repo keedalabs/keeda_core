@@ -22,5 +22,6 @@
 #
 class Event < ApplicationRecord
   geocoded_by :address
+  reverse_geocoded_by 'latitude', 'longitude'
   belongs_to :activity
 end

@@ -25,7 +25,27 @@
 class Activity < ApplicationRecord
   default_scope { order("created_at DESC") }
   before_destroy :destroy_activity_topics
-
+  include AlgoliaSearch
+  reverse_geocoded_by :event_longitude, :event_latitude
+  algoliasearch do
+    attributes :heading, :content, :verb, :created_at, :event_starttime, :event_endtime, :event_latitude, :event_longitude, :event_address
+    geoloc :event_latitude, :event_longitude
+  end
+  def event_starttime
+    event&.starttime
+  end
+  def event_endtime
+    event&.endtime
+  end
+  def event_latitude
+    event&.latitude
+  end
+  def event_longitude
+    event&.longitude
+  end
+  def event_address
+    event&.address
+  end
   belongs_to :user
   has_many :activity_topics, dependent: :destroy
   has_many :topics, through: :activity_topics
