@@ -47,7 +47,7 @@
             <%= link_to 'Show', topic_activity_path(id: topic.id, activity_id: activity.id) %>
           <% end %>
           <div id="collapse<%= dom_id(activity) %>" class="collapse">
-            <%= render :partial => 'activities/form', locals: {parent_activity: activity, activity: Activity.new, verb: 'new_reply', collapse_id: "collapse"+dom_id(activity)}%>
+            <%= render :partial => 'activities/form', locals: {parent_activity: activity, activity: Activity.new, verb: 'reply', collapse_id: "collapse"+dom_id(activity)}%>
           </div>
         </div>
       </div>

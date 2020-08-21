@@ -1,13 +1,20 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Discussions</h1>
-<%= form_tag(discussions_path, method: 'get') do %>
-  <%= text_field_tag(:search, params[:search]) %>
-  <%= submit_tag("Search", name: nil) %>
-<% end %>
-<div id="discussions">
-<%= render :partial => 'activities/activity_division', locals: { display_activities: @activities } %>
+<div class="row">
+  <div class="col-md-3">
+    <%= render :partial => 'sidebar', locals: {  } %>
+  </div>
+  <div class="col-md-9">
+    <h1>Discussions</h1>
+    <%= form_tag(discussions_path, method: 'get') do %>
+      <%= text_field_tag(:search, params[:search]) %>
+      <%= submit_tag("Search", name: nil) %>
+    <% end %>
+    <div id="discussions">
+      <%= render :partial => 'activities/activity_division', locals: { display_activities: @activities } %>
+    </div>
+    <br>
+    <%= link_to "Load more", discussions_path(page: @activities.current_page + 1, per_page: @per_page_count, search: @search), id: "load-more-discussions", remote: true %>
+    <%= link_to 'New Activity', new_activity_path %>
+  </div>
 </div>
-  <br>
-<%= link_to "Load more", discussions_path(page: @activities.current_page + 1, per_page: @per_page_count, search: @search), id: "load-more-discussions", remote: true %>
-<%= link_to 'New Activity', new_activity_path %>

@@ -12,4 +12,8 @@ class EventsController < ApplicationController
     end
     @search = params[:search]
   end
+
+  def new
+    @activity  = Activity.new
+  end
 end

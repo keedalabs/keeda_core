@@ -3,7 +3,8 @@
 <% verb ||= nil %>
 <% topic ||= activity.topics %>
 <% collapse_id ||= nil %>
-
+<% require 'securerandom'
+  random_input ||= SecureRandom.hex %>
 <div data-controller='new-activity'>
   <%= form_with(model: activity, data: { action: '' }) do |form| %>
     <% if activity.errors.any? %>
@@ -16,7 +17,7 @@
         </ul>
       </div>
     <% end %>
-    <% if verb!='reply' or verb!='new_reply' %>
+    <% if verb!='reply' %>
       <div class="field" data-target="new-activity.heading" data-action="focusin->new-activity#showWholeForm">
         <%= form.label :heading %>
         <%= form.text_field :heading, data: { target: 'activity.heading' }  %>
@@ -34,21 +35,21 @@
     <% if verb=='reply'%>
       <div class="field" data-target="new-activity.content">
         <%#= form.rich_text_area :content, data: { target: 'activity.content' } %>
-        <input id="<%="contentreply"+parent_activity.id.to_i.to_s %>" type="hidden" name="content" data-target="activity.content">
-        <trix-editor input="<%= "contentreply"+parent_activity.id.to_i.to_s %>"></trix-editor>
+        <input id="<%="contentreply"+random_input %>" type="hidden" name="activity[content]" data-target="activity.content">
+        <trix-editor input="<%= "contentreply"+random_input %>"></trix-editor>
       </div>
     <% else %>
       <div class="field new_activity" data-target="new-activity.content">
-        <%= form.label :content %>
-        <%= form.rich_text_area :content, id: "content"+activity.id.to_i.to_s, data: { target: 'activity.content' } %>
-        <input id="<%="contentreply"+activity.id.to_i.to_s %>" type="hidden" name="content" data-target="activity.content">
-        <trix-editor input="<%= "contentreply"+activity.id.to_i.to_s %>"></trix-editor>
+        <%#= form.label :content %>
+        <%#= form.rich_text_area :content, id: "content"+activity.id.to_i.to_s, data: { target: 'activity.content' } %>
+        <input id="<%="contentreply"+random_input %>" type="hidden" name="activity[content]" data-target="activity.content">
+        <trix-editor input="<%= "contentreply"+random_input %>"></trix-editor>
       </div>
     <% end %>
 
     <% if topic.present? and verb!='reply' %>
       <%= form.hidden_field :topics, value: topic, data: { target: 'activity.topic' } %>
-    <% elsif verb!='reply' or verb!='new_reply' %>
+    <% elsif verb!='reply' %>
       <div class="field new_activity" data-target="new-activity.topic">
         <%= form.label :topic %>
         <%= form.text_field :topic, data: { target: 'activity.topic' }  %>
@@ -84,12 +85,12 @@
         <%= form.text_field :address %>
       </div>
       <div>
-        <%= form.label :longitude %>
-        <%= form.text_field :longitude%>
+        <%#= form.label :longitude %>
+        <%= form.hidden_field :longitude%>
       </div>
       <div>
-        <%= form.label :latitude %>
-        <%= form.text_field :latitude %>
+        <%#= form.label :latitude %>
+        <%= form.hidden_field :latitude %>
       </div>
     <% end %>
 

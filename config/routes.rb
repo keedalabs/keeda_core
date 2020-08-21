@@ -146,7 +146,8 @@ Rails.application.routes.draw do
   resources :activities
   resources :scan_images
   resources :scenarios
-
+  get 'discussions/new', to: 'discussions#new', as: 'discussions_new'
+  get 'events/new', to: 'events#new', as: 'events_new'
   get 'topics/:id/activities/:activity_id', to: 'topics#show', as: 'topic_activity'
   get 'topics/:id/wiki/:book_id', to: 'book#index', as: 'book_index'
   get 'topics/:id/event/:event_id', to: 'event#index', as: 'event_index'

@@ -1,26 +1,43 @@
-<h2>Log in</h2>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
 
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+    <!-- Icon -->
+    <div class="fadeIn first pt-4 pb-4">
+      <h3>LOGIN</h3>
     </div>
-  <% end %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="form-group">
+<!--        <%#= f.label :email %><br />-->
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control login-input', id:'formGroupExampleInput', placeholder: 'Email' %>
+      </div>
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
+      <div class="form-group">
+<!--        <%#= f.label :password %><br />-->
+        <%= f.password_field :password, autocomplete: "current-password", class: 'form-control login-input', id:'formGroupExampleInput2', placeholder: 'Password'  %>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="form-group">
+          <div class="custom-control custom-checkbox">
+          <%= f.check_box :remember_me, class:"custom-control-input", id:"customCheck" %>
+          <%= f.label :remember_me, class:"custom-control-label", for:"customCheck" %>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= f.submit "Log in", class:"btn btn-default login-btn" %>
+      </div>
+
+      <div class="form-group mb-0">
+        <label>OR</label>
+      </div>
+    <% end %>
+    <%= render "users/shared/links" %>
   </div>
-<% end %>
+</div>
 
-<%= render "users/shared/links" %>
+
+
