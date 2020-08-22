@@ -25,27 +25,12 @@
         </div>
         <div class="col-sm-11 mt-0 pl-0 pt-0" >
           <div x-show="open">
-            <h5><%= activity.heading %></h5>
+            <h4><%= activity.heading %></h4>
             <div id="<%= dom_id(activity) %>content">
               <%= activity.content %>
-              <div>
-                <%= activity.event.try(:starttime)? local_time(activity.event.try(:starttime)): '' %>
-              </div>
-              <div>
-                <%= activity.event.try(:starttime)? local_time(activity.event.try(:endtime)): '' %>
-              </div>
-              <div>
-                <%= activity.event.try(:address) %>
-              </div>
-              <div>
-                <%= activity.event.try(:latitude) %>
-              </div>
-              <div>
-                <%= activity.event.try(:longitude) %>
-              </div>
-              <div>
-                <%= activity.event.try(:latitude) %>
-              </div>
+                <p>Starts At: <%= activity.event.try(:starttime)? local_time(activity.event.try(:starttime)): '' %></p>
+                <p>Ends At: <%= activity.event.try(:starttime)? local_time(activity.event.try(:endtime)): '' %></p>
+                <p>Location: <%= activity.event.try(:address) %></p>
               <iframe src="https://maps.google.com/maps?q=<%= activity.event.try(:latitude) %>, <%= activity.event.try(:longitude) %>&z=15&output=embed" width="360" height="270" frameborder="0" style="border:0"></iframe>
             </div>
           </div>
@@ -79,14 +64,14 @@
     <div class="col-sm-1 pt-2 text-center post-like-status"></div>
     <div class="col-sm-11 mt-0 pl-0 pt-0">
       <div class="comments comments-2 pt-2">
-        <span><img src="/assets/Icon awesome-comment@3x.png" alt="" /> 523 comments</span>
+        <span><img src="/assets/Icon awesome-comment@3x.png" alt="" /> <%= Activity.where(parent_activity: activity).count %> comments</span>
         <span class="dropdown show">
             <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <img src="/assets/Icon awesome-share@3x.png" alt="" />
                                             Share
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <a class="dropdown-item" href="#"><%= social_share_button_tag(activity.heading) %></a>
+              <a class="dropdown-item" href="#"><%= social_share_button_tag(activity.heading, :url => activities_path(activity)) %></a>
             </div>
           </span>
         <span><a href="#"><img src="/assets/Icon material-report@3x.png" alt="" />

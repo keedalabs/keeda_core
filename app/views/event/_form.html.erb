@@ -3,6 +3,8 @@
 <% verb ||= nil %>
 <% topic ||= activity.topics %>
 <% collapse_id ||= nil %>
+<% require 'securerandom'
+   random_input ||= SecureRandom.hex %>
 
 <div data-controller='event new-event places'>
   <%= form_with(model: activity, data: { action: 'ajax:success->event#clearInput google-maps-callback@window->places.initMap' }) do |form| %>
@@ -17,37 +19,39 @@
       </div>
     <% end %>
     <% if verb!='reply' %>
-      <div class="field" data-target="new-event.heading" data-action="focusin->new-event#showWholeForm">
-        <%= form.label :heading %>
-        <%= form.text_field :heading, data: { target: 'event.heading' }  %>
+      <div class="form-group" data-target="new-event.heading" data-action="focusin->new-event#showWholeForm">
+        <%= form.text_field :heading, data: { target: 'event.heading' }, class:"form-control login-input", placeholder:"heading"  %>
       </div>
     <% end %>
 
     <% if verb.present? %>
       <%= form.hidden_field :verb, value: verb %>
     <% else %>
-      <div class="field new_activity" data-target="new-event.verb">
-        <%= form.label :verb %>
-        <%= form.text_field :verb, data: { target: 'event.verb' }  %>
+      <div class="form-group new_activity" data-target="new-event.verb">
+        <%= form.text_field :verb, data: { target: 'event.verb' }, class:"form-control login-input", placeholder:"verb"  %>
       </div>
     <% end %>
     <% if verb=='reply'%>
-      <div class="field" data-target="new-event.content">
-        <%= form.cktext_area :content, id: "contentreply"+parent_activity.id.to_i.to_s, data: { target: 'event.content' } %>
+      <div class="form-group" data-target="new-event.content">
+        <%#= form.cktext_area :content, id: "contentreply"+parent_activity.id.to_i.to_s, data: { target: 'event.content' } %>
+        <input id="<%="contentreply"+random_input %>" type="hidden" name="activity[content]" data-target="event.content">
+        <trix-editor input="<%= "contentreply"+random_input %>"></trix-editor>
       </div>
     <% else %>
-      <div class="field new_activity" data-target="new-event.content">
-        <%= form.label :content %>
-        <%= form.cktext_area :content, id: "content"+activity.id.to_i.to_s, data: { target: 'event.content' } %>
+      <div class="form-group new_activity" data-target="new-event.content">
+        <%#= form.label :content %>
+        <%#= form.cktext_area :content, id: "content"+activity.id.to_i.to_s, data: { target: 'event.content' } %>
+        <input id="<%="contentreply"+random_input %>" type="hidden" name="activity[content]" data-target="event.content">
+        <trix-editor input="<%= "contentreply"+random_input%>" placeholder="content"></trix-editor>
       </div>
     <% end %>
 
     <% if topic.present? and verb!='reply' %>
       <%= form.hidden_field :topics, value: topic, data: { target: 'event.topic' } %>
     <% elsif verb!='reply' %>
-      <div class="field new_activity" data-target="new-event.topic">
-        <%= form.label :topic %>
-        <%= form.text_field :topic, data: { target: 'event.topic' }  %>
+      <div class="form-group new_activity" data-target="new-event.topic">
+        <%#= form.label :topic %>
+        <%= form.text_field :topic, data: { target: 'event.topic' }, class:"form-control login-input", placeholder:"topic"  %>
       </div>
     <% end %>
 
@@ -59,36 +63,35 @@
     <% if parent_id&.present? %>
       <%= form.hidden_field :parent_id, value: parent_id %>
     <% end %>
-    <%= 'testing' %>
     <% if verb=='event' %>
       <%= form.fields_for :event, Event.new do |event_form|%>
-        <div class="field new_activity" data-target="new-event.starttime">
-          <%= event_form.label :starttime %>
-          <%= event_form.text_field :starttime,
+        <div class="form-group new_activity" data-target="new-event.starttime">
+          <%#= event_form.label :starttime %>
+          <%= event_form.text_field :starttime, class:"form-control login-input",
                                     data: {
                                         controller: "flatpickr",
                                         target: 'event.starttime'
-                                    } %>
+                                    }, placeholder:"start time" %>
         </div>
-        <div class="field new_activity" data-target="new-event.endtime">
-          <%= event_form.label :endtime %>
-          <%= event_form.text_field :endtime,
+        <div class="form-group new_activity" data-target="new-event.endtime">
+          <%#= event_form.label :endtime %>
+          <%= event_form.text_field :endtime, class:"form-control login-input", placeholder: 'End Time',
                                     data: {
                                         controller: "flatpickr",
                                         target: 'event.endtime'
                                     } %>
         </div>
-        <div class="field new_activity" data-target="new-event.field">
-          <%= event_form.label :address%>
-          <%= event_form.search_field :address , data: { target: "places.field event.field", action: "keydown->places#keydown" } %>
+        <div class="form-group new_activity" data-target="new-event.field">
+          <%#= event_form.label :address%>
+          <%= event_form.search_field :address , data: { target: "places.field event.field", action: "keydown->places#keydown" }, class:"form-control login-input", placeholder: 'Address' %>
         </div>
-        <div class="field new_activity" data-target="new-event.latitude">
-          <%= event_form.label :latitude %>
-          <%= event_form.text_field :latitude, data: { target: "places.latitude event.latitude" } %>
+        <div class="form-group new_activity" data-target="new-event.latitude">
+          <%#= event_form.label :latitude %>
+          <%= event_form.hidden_field :latitude, data: { target: "places.latitude event.latitude" }, class:"form-control login-input", placeholder: 'Latitude' %>
         </div>
-        <div class="field new_activity" data-target="new-event.longitude">
-          <%= event_form.label :longitude %>
-          <%= event_form.text_field :longitude, data: { target: "places.longitude event.longitude" }%>
+        <div class="form-group new_activity" data-target="new-event.longitude">
+          <%#= event_form.label :longitude %>
+          <%= event_form.hidden_field :longitude, data: { target: "places.longitude event.longitude" }, class:"form-control login-input", placeholder: 'Longitude' %>
         </div>
         <div class="p-4 new_activity" data-target="new-event.map">
           <div data-target="places.map" style="height:400px;width:400px"></div>

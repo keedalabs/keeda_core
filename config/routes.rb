@@ -121,7 +121,11 @@
 Rails.application.routes.draw do
   get 'events', to: 'events#index', as: 'events'
   get 'discussions',to: 'discussions#index', as: 'discussions'
-  namespace :admin do
+  admin = lambda do |request|
+    request.env['warden'].authenticate? && request.env['warden'].user.admin?
+  end
+  constraints admin do
+    namespace :admin do
       resources :users
       resources :reactions
       resources :activities
@@ -134,7 +138,12 @@ Rails.application.routes.draw do
       resources :follows
 
       root to: "users#index"
+      mount Blazer::Engine, at: "blazer"
+      mount PgHero::Engine, at: "pghero"
+
     end
+  end
+
   mount Ckeditor::Engine => '/ckeditor'
   mount Attractor::Rails::Engine, at: "/attractor" if Rails.env.development?
   mount Coverband::Reporters::Web.new, at: '/coverage'
@@ -158,8 +167,6 @@ Rails.application.routes.draw do
   get 'topics/:id/new_topic_activity', to: 'topics#new_topic_activity', as: 'new_topic_activity'
   get 'activity_replies/:id', to: 'activities#activity_replies', as: 'activity_replies'
   root 'dashboard#index'
-  mount Blazer::Engine, at: "blazer"
-  mount PgHero::Engine, at: "pghero"
   # resources :users
   # devise_for :users, path_names: {
   #   sign_in: 'login', sign_out: 'logout',

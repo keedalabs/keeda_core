@@ -8,27 +8,22 @@
   </div>
   <div class="col-md-9">
     <div data-controller='maplessplaces'>
-      <%= form_tag(events_path, method: 'get') do %>
-        <div>
-          <%= label_tag(:search, :search) %>
-          <%= text_field_tag(:search, params[:search]) %>
+    <%= form_tag(events_path, method: 'get') do %>
+      <div class="input-group input-group-lg">
+        <%= text_field_tag(:search, params[:search], class:"form-control", placeholder:"Search", aria: {label: "Large", describedby:"inputGroup-sizing-sm"}) %>
+        <%= text_field_tag(:address, params[:address],class:"form-control", placeholder:"Address", aria: {label: "Large", describedby:"inputGroup-sizing-sm"}, data: { target: "maplessplaces.field", action: "keydown->maplessplaces#keydown" }) %>
+        <div class="input-group-prepend">
+          <%= button_tag(type: "submit", class: "btn btn-outline-secondary main-search-btn") do %>
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+              <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+            </svg>
+          <% end %>
         </div>
-        <div>
-          <%= label_tag(:address, :address) %>
-          <%= text_field_tag(:address, params[:address], data: { target: "maplessplaces.field", action: "keydown->maplessplaces#keydown" }) %>
-        </div>
-        <div>
-          <%#= label_tag(:longitude, :longitude) %>
-          <%= hidden_field_tag(:longitude, params[:longitude], data: { target: "maplessplaces.longitude" }) %>
-        </div>
-        <div>
-          <%#= label_tag(:latitude, :latitude) %>
-          <%= hidden_field_tag(:latitude, params[:latitude], data: { target: "maplessplaces.latitude" }) %>
-        </div>
-        <%= submit_tag("Search", name: nil) %>
-      <% end %>
+      </div>
+    <% end %>
     </div>
-    <div id="events">
+    <div id="events" style="padding-top: 1em">
       <%= render :partial => 'activities/activity_division', locals: { display_activities: @activities } %>
     </div>
     <br>

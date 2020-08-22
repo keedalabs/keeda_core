@@ -18,28 +18,26 @@
       </div>
     <% end %>
     <% if verb!='reply' %>
-      <div class="field" data-target="new-activity.heading" data-action="focusin->new-activity#showWholeForm">
-        <%= form.label :heading %>
-        <%= form.text_field :heading, data: { target: 'activity.heading' }  %>
+      <div class="form-group" data-target="new-activity.heading" data-action="focusin->new-activity#showWholeForm">
+        <%= form.text_field :heading, data: { target: 'activity.heading' }, class:"form-control login-input", placeholder:"Heading"  %>
       </div>
     <% end %>
 
     <% if verb.present? %>
       <%= form.hidden_field :verb, value: verb %>
     <% else %>
-      <div class="field new_activity" data-target="new-activity.verb">
-        <%= form.label :verb %>
-        <%= form.text_field :verb, data: { target: 'activity.verb' }  %>
+      <div class="form-group new_activity" data-target="new-activity.verb">
+        <%= form.text_field :verb, data: { target: 'activity.verb' }, class:"form-control login-input", placeholder:"Verb"  %>
       </div>
     <% end %>
     <% if verb=='reply'%>
-      <div class="field" data-target="new-activity.content">
+      <div class="form-group" data-target="new-activity.content">
         <%#= form.rich_text_area :content, data: { target: 'activity.content' } %>
         <input id="<%="contentreply"+random_input %>" type="hidden" name="activity[content]" data-target="activity.content">
         <trix-editor input="<%= "contentreply"+random_input %>"></trix-editor>
       </div>
     <% else %>
-      <div class="field new_activity" data-target="new-activity.content">
+      <div class="form-group new_activity" data-target="new-activity.content">
         <%#= form.label :content %>
         <%#= form.rich_text_area :content, id: "content"+activity.id.to_i.to_s, data: { target: 'activity.content' } %>
         <input id="<%="contentreply"+random_input %>" type="hidden" name="activity[content]" data-target="activity.content">
@@ -50,9 +48,8 @@
     <% if topic.present? and verb!='reply' %>
       <%= form.hidden_field :topics, value: topic, data: { target: 'activity.topic' } %>
     <% elsif verb!='reply' %>
-      <div class="field new_activity" data-target="new-activity.topic">
-        <%= form.label :topic %>
-        <%= form.text_field :topic, data: { target: 'activity.topic' }  %>
+      <div class="form-group new_activity" data-target="new-activity.topic">
+        <%= form.text_field :topic, data: { target: 'activity.topic' }, class:"form-control login-input", placeholder:"Topic"  %>
       </div>
     <% end %>
 
@@ -66,29 +63,26 @@
     <% end %>
 
     <% if verb=='event' %>
-      <div class="field">
-        <%= form.label :starttime %>
-        <%= form.text_field :starttime,
+      <div class="form-group">
+        <%= form.text_field :starttime, class:"form-control login-input", placeholder:"Start Time",
                             data: {
                                 controller: "flatpickr",
                             } %>
       </div>
-      <div class="field">
-        <%= form.label :endtime %>
-        <%= form.text_field :starttime,
+      <div class="form-group">
+        <%= form.text_field :starttime, class:"form-control login-input", placeholder:"End Time",
                             data: {
                                 controller: "flatpickr",
                             } %>
       </div>
-      <div>
-        <%= form.label :address %>
-        <%= form.text_field :address %>
+      <div class="form-group">
+        <%= form.text_field :address, placeholder:"Address", class:"form-control login-input" %>
       </div>
-      <div>
+      <div class="form-group">
         <%#= form.label :longitude %>
         <%= form.hidden_field :longitude%>
       </div>
-      <div>
+      <div class="form-group">
         <%#= form.label :latitude %>
         <%= form.hidden_field :latitude %>
       </div>

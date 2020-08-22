@@ -24,7 +24,7 @@
         </div>
         <div class="col-sm-11 mt-0 pl-0 pt-0" >
           <div x-show="open">
-            <h5><%= activity.heading %></h5>
+            <h4><%= activity.heading %></h4>
             <div id="<%= dom_id(activity) %>content">
               <%= activity.content %>
             </div>
@@ -55,14 +55,14 @@
         <div class="col-sm-1 pt-2 text-center post-like-status"></div>
         <div class="col-sm-11 mt-0 pl-0 pt-0">
           <div class="comments comments-2 pt-2">
-            <span><img src="/assets/Icon awesome-comment@3x.png" alt="" /> 523 comments</span>
+            <span><img src="/assets/Icon awesome-comment@3x.png" alt="" /> <%= Activity.where(parent_activity: activity).count %> comments</span>
             <span class="dropdown show">
             <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <img src="/assets/Icon awesome-share@3x.png" alt="" />
                                             Share
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <a class="dropdown-item" href="#"><%= social_share_button_tag(activity.heading) %></a>
+              <a class="dropdown-item" href="#"><%= social_share_button_tag(activity.heading, :url => activities_path(activity)) %></a>
             </div>
           </span>
             <span><a href="#"><img src="/assets/Icon material-report@3x.png" alt="" />
