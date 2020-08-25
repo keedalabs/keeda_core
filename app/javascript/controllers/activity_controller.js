@@ -7,34 +7,36 @@ export default class extends ApplicationController {
     static targets = ['content', 'verb', 'topic', 'heading'];
     connect() {
         console.log("this is connected")
-        $(this.topicTarget).selectize({
-            create: function(input, callback) {
-                console.log(input);
-                $.ajax({
-                    method: "POST",
-                    url: '/topics',
-                    dataType: "json",
-                    contentType: 'application/json',
-                    data: JSON.stringify({topic: {name: input}}),
-                    success: function(response) {
-                        console.log(response)
-                        callback({value: response.id, text: response.name});
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        if (jqXHR.status == 500) {
-                            alert('Internal error: ' + jqXHR.responseText);
-                        } else {
-                            alert('Unexpected error.');
+        if(this.hasTopicTarget) {
+            $(this.topicTarget).selectize({
+                create: function(input, callback) {
+                    console.log(input);
+                    $.ajax({
+                        method: "POST",
+                        url: '/topics',
+                        dataType: "json",
+                        contentType: 'application/json',
+                        data: JSON.stringify({topic: {name: input}}),
+                        success: function(response) {
+                            console.log(response)
+                            callback({value: response.id, text: response.name});
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            if (jqXHR.status == 500) {
+                                alert('Internal error: ' + jqXHR.responseText);
+                            } else {
+                                alert('Unexpected error.');
+                            }
+                            callback();
                         }
-                        callback();
-                    }
 
-                });
+                    });
 
 
 
-            }
-        });
+                }
+            });
+        }
         };
     clearInput() {
         this.contentTarget.value = '';

@@ -139,7 +139,7 @@ class ActivitiesController < InheritedResources::Base
   private
 
     def activity_params
-      params.require(:activity).permit(:verb, :content, :user_id, :parent_activity_id, :topics, :object, :heading, :parent_id, :page, :per_page, event_attributes: [:address, :latitude, :longitude, :starttime, :endtime])
+      params.require(:activity).permit(:verb, :content, :user_id, :parent_activity_id, :topics, :object, :heading, :parent_id, :page, :per_page, topic_ids: [], event_attributes: [:address, :latitude, :longitude, :starttime, :endtime])
     end
 
 end
