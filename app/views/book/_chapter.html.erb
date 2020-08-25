@@ -1,8 +1,9 @@
-<div class="col">
-  <div class="card">
-    <div class="card-body">
-      <p class="card-text"><%= chapter.heading %></p>
-      <%= link_to 'Show', chapter_index_path(id: topic.id, book_id: book.id, chapter_id: chapter.id) %>
+<div class="col pt-3">
+  <div class="media pt-2 pl-3 pr-3 pb-2 m-media">
+
+    <div class="media-body pl-4 bd-callout bd-callout-warning">
+      <h4 class="media-heading"><%= link_to chapter.heading, chapter_index_path(id: topic.id, book_id: book.id, chapter_id: chapter.id) %></h4>
+      <small><%= chapter.content.to_plain_text[0..200] %></small>
       <% chapter.children.each do |page| %>
         <%= render :partial => 'chapter/page', locals: { book: book, topic: topic, chapter: chapter, page: page } %>
       <% end %>

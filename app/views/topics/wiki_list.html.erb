@@ -3,11 +3,25 @@
     <%= render :partial => 'sidebar', locals: { topic: @topic } %>
   </div>
   <div class="col-md-8">
-    <%= render  partial: 'activities/form', locals: {activity: @new_activity, topic: @topic.name}  %>
-    <div id="dashboard-list">
-      <% @wikis.each do |wiki| %>
-        <%= render :partial => 'wiki', locals: { wiki: wiki, topic: @topic } %>
-      <% end %>
+    <div class="book-bg">
+      <div class="row">
+
+        <div class="col-sm-12">
+          <div class="card card-26">
+            <div class="row">
+              <div class="col-lg-10 col-md-12">
+                <h2>Books</h2>
+                <%= render  partial: 'activities/form', locals: {activity: @new_activity, topic: @topic.name}  %>
+              </div>
+            </div>
+            <div class="dashboard-list container">
+              <% @wikis.each do |wiki| %>
+                <%= render :partial => 'wiki', locals: { wiki: wiki, topic: @topic } %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

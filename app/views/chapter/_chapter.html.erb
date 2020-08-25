@@ -1,31 +1,40 @@
 <% topic ||= nil %>
+<% @chapter ||= activity %>
 <div class="card" id="<%= dom_id(activity) %>start">
-  <div class="card-title">
-    <%= activity.user.name %>
-    <%= link_to time_ago_in_words(activity.created_at), activity_path(activity) %>
-
-    <div class="float-right"><%= activity.verb %></div>
-    <br>
-    <b><%= activity.heading %></b>
-  </div>
   <div class="card-body">
-    <%= activity.content %>
-    <div id="editcollapse<%= dom_id(activity) %>" class="collapse">
-      <%= render :partial => 'activities/form', locals: {activity: activity, collapse_id: "editcollapse"+dom_id(activity)} %>
+    <div class="row post-contains">
+      <div class="col-sm-1 text-center">
+        <%= image_tag user_avatar(activity.user, 100), class:"team-circle mr-2" %>
+      </div>
+      <div class="col-sm-11 mt-0 pl-0 pt-2">
+        <span class="post-name">@<%=activity.user.name %></span>
+        <small class="post-day"><%= link_to time_ago_in_words(activity.created_at), activity_path(activity) %></small>
+        <span class="post-type badge badge-secondary"><%= activity.verb %></span>
+      </div>
     </div>
-    Topics:
-    <% activity.topic_list.each do |topic| %>
-      <%= link_to topic.name, topic_path(topic) %>
-    <% end %>
-    <br>
-    <%= render :partial => 'activities/like', locals: {activity: activity} %>
-    <a class="collapsed" data-toggle="collapse" href="#editcollapse<%= dom_id(activity) %>" role="button" aria-expanded="false" aria-controls="editcollapse<%= dom_id(activity) %>">
-      edit
-    </a>
-    <td><%= link_to 'delete', activity, method: :delete, data: { confirm: 'Are you sure?' }, remote:true %></td>
-    <% if topic.present? %>
-      <%= link_to 'Show', topic_activity_path(id: topic.id, activity_id: activity.id) %>
-    <% end %>
+    <div class="container book-bg">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 pb-3">
+          <h2><%= @chapter.heading %></h2>
+        </div>
+      </div>
+      <div class="container">
+        <%= @chapter.content %>
+      </div>
+      <%= link_to 'history', activities_versions_path(id: @chapter.id) %>
+      <div id="editcollapse<%= dom_id(@chapter) %>" class="collapse">
+        <%= render :partial => 'activities/form', locals: {activity: @chapter, collapse_id: "editcollapse"+dom_id(@chapter)} %>
+      </div>
+      <%= render :partial => 'activities/like', locals: {activity: @chapter} %>
+      <a class="collapsed" data-toggle="collapse" href="#editcollapse<%= dom_id(@chapter) %>" role="button" aria-expanded="false" aria-controls="editcollapse<%= dom_id(@chapter) %>">
+        edit
+      </a>
+      <td><%= link_to 'delete', @chapter, method: :delete, data: { confirm: 'Are you sure?' }, remote:true %></td>
+      <% if topic.present? %>
+        <%= link_to 'Show', topic_activity_path(id: topic.id, activity_id: activity.id) %>
+      <% end %>
+    </div>
+  </div>
 </div>
 
 <script>

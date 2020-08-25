@@ -1,0 +1,10 @@
+<div class="col pl-0">
+  <% book.children.each do |chapter| %>
+    <div class="media m-media mt-2 mb-2">
+      <div class="media-body p-2 bd-callout bd-callout-warning content-left-menu">
+        <span><%= chapter.heading %></span>
+        <%= render :partial => 'page/navigation', locals: { book: chapter } %>
+      </div>
+    </div>
+  <% end %>
+</div>

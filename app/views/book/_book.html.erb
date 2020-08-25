@@ -1,28 +1,44 @@
 <% topic ||= nil %>
+<% @book ||= activity %>
 <div class="card" id="<%= dom_id(activity) %>start">
-  <div class="card-title">
-    <%= activity.user.name %>
-    <%= link_to time_ago_in_words(activity.created_at), activity_path(activity) %>
-
-    <div class="float-right"><%= activity.verb %></div>
-    <br>
-    <b><%= activity.heading %></b>
-  </div>
   <div class="card-body">
-    <%= activity.content %>
-    <div id="editcollapse<%= dom_id(activity) %>" class="collapse">
-      <%= render :partial => 'activities/form', locals: {activity: activity, collapse_id: "editcollapse"+dom_id(activity)} %>
+    <div class="row post-contains">
+      <div class="col-sm-1 text-center">
+        <%= image_tag user_avatar(activity.user, 100), class:"team-circle mr-2" %>
+      </div>
+      <div class="col-sm-11 mt-0 pl-0 pt-2">
+        <span class="post-name">@<%=activity.user.name %></span>
+        <small class="post-day"><%= link_to time_ago_in_words(activity.created_at), activity_path(activity) %></small>
+        <span class="post-type badge badge-secondary"><%= activity.verb %></span>
+      </div>
     </div>
-    Topics:
-    <% activity.topic_list.each do |topic| %>
-      <%= link_to topic.name, topic_path(topic) %>
-    <% end %>
+    <div class="container book-bg">
+      <div class="col-sm-12">
+        <div class="card card-26">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 pb-3">
+              <h2><%= @book.heading %></h2>
+            </div>
+          </div>
+          <div class="container">
+            <%= @book.content %>
+          </div>
+        </div>
+      </div>
+      <%= link_to 'history', activities_versions_path(id: @book.id) %>
+      <div id="editcollapse<%= dom_id(@book) %>" class="collapse">
+        <%= render :partial => 'activities/form', locals: {activity: @book, collapse_id: "editcollapse"+dom_id(@book)} %>
+      </div>
+      <%= render :partial => 'activities/like', locals: {activity: @book} %>
+      <a class="collapsed" data-toggle="collapse" href="#editcollapse<%= dom_id(@book) %>" role="button" aria-expanded="false" aria-controls="editcollapse<%= dom_id(@book) %>">
+        edit
+      </a>
+      <td><%= link_to 'delete', @book, method: :delete, data: { confirm: 'Are you sure?' }, remote:true %></td>
+      <div id="collapse<%= dom_id(@book) %>" class="collapse">
+        <%= render :partial => 'activities/form', locals: {parent_activity: @book, activity: Activity.new, verb: 'reply', collapse_id: "collapse"+dom_id(@book)}%>
+      </div>
+    </div>
     <br>
-    <%= render :partial => 'activities/like', locals: {activity: activity} %>
-    <a class="collapsed" data-toggle="collapse" href="#editcollapse<%= dom_id(activity) %>" role="button" aria-expanded="false" aria-controls="editcollapse<%= dom_id(activity) %>">
-      edit
-    </a>
-    <td><%= link_to 'delete', activity, method: :delete, data: { confirm: 'Are you sure?' }, remote:true %></td>
     <% if topic.present? %>
       <%= link_to 'Show', topic_activity_path(id: topic.id, activity_id: activity.id) %>
     <% end %>

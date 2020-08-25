@@ -14,8 +14,11 @@
           <ul class="list-unstyled team-height">
             <% following_topics.each do |topic| %>
               <li>
-                <%= image_tag topic_avatar(topic, 100), class:"team-circle mr-2" %>
-                @<%= topic.name %>
+                <%= link_to topic_path(topic) do %>
+                  <%= image_tag topic_avatar(topic, 100), class:"team-circle mr-2" %>
+                  @<%= topic.name %>
+                <% end %>
+
               </li>
             <% end %>
           </ul>
@@ -31,8 +34,11 @@
         <ul class="list-unstyled team-height">
           <% follower_users.each do |user| %>
             <li>
-              <%= image_tag user_avatar(user, 100), class:"team-circle mr-2" %>
-              @<%= user.name %>
+              <%= link_to user_path(user) do %>
+                <%= image_tag user_avatar(user, 100), class:"team-circle mr-2" %>
+                @<%= user.name %>
+              <% end %>
+
             </li>
           <% end %>
         </ul>
@@ -48,8 +54,10 @@
         <ul class="list-unstyled team-height">
           <% following_users.each do |user| %>
             <li>
-              <%= image_tag user_avatar(user, 100), class:"team-circle mr-2" %>
-              @<%= user.name %>
+              <%= link_to user_path(user) do %>
+                <%= image_tag user_avatar(user, 100), class:"team-circle mr-2" %>
+                @<%= user.name %>
+              <% end %>
             </li>
           <% end %>
         </ul>

@@ -1,14 +1,13 @@
-<div class="col">
-  <div class="card">
-    <div class="card-body">
-      <p class="card-text"><%= wiki.content.to_plain_text[0..200] %></p>
-      <%= link_to 'Show', book_index_path(id: topic.id, book_id: wiki.id) %>
-      <div>
-        <% wiki.replies.each do |reply_wiki| %>
-          <%= render :partial => 'wiki', locals: { wiki: reply_wiki, topic: topic } %>
-        <% end %>
-      </div>
+<div class="col pt-3">
+  <div class="media pt-2 pl-3 pr-3 pb-2 m-media">
+    <div class="media-left">
+      <a href="#">
+        <img class="media-object" src="http://etrkeeda.herokuapp.com/assets/book2.jpg" alt="...">
+      </a>
+    </div>
+    <div class="media-body pl-4">
+      <h4 class="media-heading"><%= link_to wiki.heading, book_index_path(id: topic.id, book_id: wiki.id) %></h4>
+      <small><%= wiki.content.to_plain_text[0..200] %></small>
     </div>
   </div>
 </div>
-

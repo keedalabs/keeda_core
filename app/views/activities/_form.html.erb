@@ -5,7 +5,7 @@
 <% collapse_id ||= nil %>
 <% require 'securerandom'
   random_input ||= SecureRandom.hex %>
-<div data-controller='new-activity'>
+<div data-controller='activity new-activity'>
   <%= form_with(model: activity, data: { action: '' }) do |form| %>
     <% if activity.errors.any? %>
       <div id="error_explanation">
@@ -32,16 +32,17 @@
     <% end %>
     <% if verb=='reply'%>
       <div class="form-group" data-target="new-activity.content">
-        <%#= form.rich_text_area :content, data: { target: 'activity.content' } %>
-        <input id="<%="contentreply"+random_input %>" type="hidden" name="activity[content]" data-target="activity.content">
-        <trix-editor input="<%= "contentreply"+random_input %>"></trix-editor>
+        <%= form.rich_text_area :content, data: { target: 'activity.content' }, id: "contentreply"+random_input %>
+<!--        <input id="<%#="contentreply"+random_input %>" type="hidden" name="activity[content]" value="<%#=h activity.content %>" data-target="activity.content">-->
+<!--        <trix-editor input="<%#= "contentreply"+random_input %>"></trix-editor>-->
       </div>
     <% else %>
       <div class="form-group new_activity" data-target="new-activity.content">
         <%#= form.label :content %>
-        <%#= form.rich_text_area :content, id: "content"+activity.id.to_i.to_s, data: { target: 'activity.content' } %>
-        <input id="<%="contentreply"+random_input %>" type="hidden" name="activity[content]" data-target="activity.content">
-        <trix-editor input="<%= "contentreply"+random_input %>"></trix-editor>
+        <%= form.rich_text_area :content, id: "contentreply"+random_input, data: { target: 'activity.content' } %>
+        <pre><%= activity[:content] %></pre>
+<!--        <input id="<%#="contentreply"+random_input %>" type="hidden" name="activity[content]" value="<%#=h activity.content %>" data-target="activity.content">-->
+<!--        <trix-editor input="<%#= "contentreply"+random_input %>"></trix-editor>-->
       </div>
     <% end %>
 
@@ -49,7 +50,8 @@
       <%= form.hidden_field :topics, value: topic, data: { target: 'activity.topic' } %>
     <% elsif verb!='reply' %>
       <div class="form-group new_activity" data-target="new-activity.topic">
-        <%= form.text_field :topic, data: { target: 'activity.topic' }, class:"form-control login-input", placeholder:"Topic"  %>
+        <%#= form.text_field :topic, data: { target: 'activity.topic' }, class:"form-control login-input", placeholder:"Topic"  %>
+        <%= form.select :topic_ids, Topic.all.pluck(:name, :id), {}, {multiple: true, data: { target: 'activity.topic'}, class:"login-input", placeholder:"Topic" }  %>
       </div>
     <% end %>
 

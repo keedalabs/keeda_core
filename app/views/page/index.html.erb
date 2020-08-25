@@ -1,10 +1,55 @@
+<% per_page_count = 3
+   replies = @page.replies.page(1).per(per_page_count) %>
 <p id="notice"><%= notice %></p>
 <div class="row">
   <div class="col-md-3">
     <%= render :partial => 'topics/sidebar', locals: { topic: @topic } %>
   </div>
-  <div class="col-md-8">
-    <%= render :partial => 'page/page', locals: { activity: @page } %>
+  <div class="col-md-7" style="padding-right: 0 !important;">
+    <%#= render :partial => 'page/page', locals: { activity: @page } %>
+    <div class="container book-bg">
+      <div class="col-sm-12">
+        <div class="card card-26">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 pb-3">
+              <h2><%= @page.heading %></h2>
+            </div>
+          </div>
+          <div class="container">
+            <%= @page.content %>
+          </div>
+        </div>
+      </div>
+      <%= link_to 'history', activities_versions_path(id: @page.id) %>
+      <div id="editcollapse<%= dom_id(@page) %>" class="collapse">
+        <%= render :partial => 'activities/form', locals: {activity: @page, collapse_id: "editcollapse"+dom_id(@page)} %>
+      </div>
+      <%= render :partial => 'activities/like', locals: {activity: @page} %>
+      <a class="collapsed" data-toggle="collapse" href="#editcollapse<%= dom_id(@page) %>" role="button" aria-expanded="false" aria-controls="editcollapse<%= dom_id(@page) %>">
+        edit
+      </a>
+      <a class="collapsed" data-toggle="collapse" href="#collapse<%= dom_id(@page) %>" role="button" aria-expanded="false" aria-controls="collapse<%= dom_id(@page) %>">
+        reply
+      </a>
+      <td><%= link_to 'delete', @page, method: :delete, data: { confirm: 'Are you sure?' }, remote:true %></td>
+      <div id="collapse<%= dom_id(@page) %>" class="collapse">
+        <%= render :partial => 'activities/form', locals: {parent_activity: @page, activity: Activity.new, verb: 'reply', collapse_id: "collapse"+dom_id(@page)}%>
+      </div>
 
+      <div class="container pt-4">
+        <div id="<%= dom_id(@page) %>">
+          <% replies.each do |reply_activity| %>
+            <%= render :partial => 'activities/activity', locals: { activity: reply_activity } %>
+          <% end %>
+        </div>
+        <% if (!replies.last_page? && replies.present?) %>
+          <%= link_to "Load more", activity_replies_path(activity, page: replies.current_page + 1, per_page: per_page_count), id: "load-more-replies"+dom_id(@page), remote: true %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2" style="padding-left: 0 !important;">
+    <h5 class="pb-3 pt-4">Book Navigation</h5>
+    <%= render :partial => 'page/navigation', locals: { book: @page.parent.parent } %>
   </div>
 </div>

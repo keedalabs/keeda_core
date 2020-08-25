@@ -1,12 +1,16 @@
 <% topic ||= nil %>
 <% display_activities.each do |activity| %>
-    <% if activity.verb == 'event' %>
-      <%= render :partial => 'event/event', locals: { activity: activity, topic: topic } %>
-    <% elsif activity.verb == 'wiki' %>
-      <%= render :partial => 'book/book', locals: { activity: activity, topic: topic } %>
-    <% else %>
-      <%= render :partial => 'activities/activity', locals: { activity: activity, topic: topic } %>
-    <% end %>
+  <% if activity.verb == 'event' %>
+    <%= render :partial => 'event/event', locals: { activity: activity, topic: topic } %>
+  <% elsif activity.verb == 'wiki' %>
+    <%= render :partial => 'book/book', locals: { activity: activity, topic: topic } %>
+  <% elsif activity.verb == 'chapter' %>
+    <%= render :partial => 'chapter/chapter', locals: { activity: activity, topic: topic } %>
+  <% elsif activity.verb == 'page' %>
+    <%= render :partial => 'page/page', locals: { activity: activity, topic: topic } %>
+  <% else %>
+    <%= render :partial => 'activities/activity', locals: { activity: activity, topic: topic } %>
+  <% end %>
 <% end %>
 <% if display_activities.empty? %>
   <p> No Activites found </p>

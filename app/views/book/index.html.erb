@@ -4,12 +4,25 @@
     <%= render :partial => 'topics/sidebar', locals: { topic: @topic } %>
   </div>
   <div class="col-md-8">
-    <%= render :partial => 'book', locals: { activity: @book } %>
-    <%= render  partial: 'activities/form', locals: {activity: Activity.new(verb: 'chapter', parent_id: @book.id), topic: @topic.name, parent_id: @book.id}  %>
-    <div id="dashboard-list">
-    <% @chapters.each do |chapter| %>
-      <%= render :partial => 'book/chapter', locals: { book: @book, topic: @topic, chapter: chapter } %>
-    <% end %>
+    <div class="container book-bg">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card card-26">
+            <div class="row">
+              <div class="col-lg-12 col-md-12">
+                <h2><%= @book.heading %></h2>
+              </div>
+            </div>
+            <p><%= @book.content %></p>
+            <div id="dashboard-list" class="container">
+              <%= render  partial: 'activities/form', locals: {activity: Activity.new(verb: 'chapter', parent_id: @book.id), topic: @topic.name, parent_id: @book.id}  %>
+              <% @chapters.each do |chapter| %>
+                <%= render :partial => 'book/chapter', locals: { book: @book, topic: @topic, chapter: chapter } %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

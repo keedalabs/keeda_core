@@ -28,7 +28,7 @@
         <%= render :partial => 'shared/left_arrow', locals: {link_path: topic_path(topic), link_name: 'All'} %>
         <%= render :partial => 'shared/left_arrow', locals: {link_path: topic_path(topic), link_name: 'Discussions'} %>
         <%= render :partial => 'shared/left_arrow', locals: {link_path: topic_path(topic), link_name: 'Events'} %>
-        <%= render :partial => 'shared/left_arrow', locals: {link_path: topic_path(topic), link_name: 'Learning resources'} %>
+        <%= render :partial => 'shared/left_arrow', locals: {link_path: topic_wiki_list_path(topic), link_name: 'Learning resources'} %>
       </ul>
     </div>
 

@@ -15,6 +15,19 @@ class TopicsController < InheritedResources::Base
     @per_page_count = params[:per_page]
   end
 
+  def create
+    @topic = Topic.new(topic_params)
+
+    respond_to do |format|
+      if @topic.save
+        format.html { redirect_to @topic, notice: 'Topic was successfully created.' }
+        format.json { render :show, status: :created, location: @topic }
+      else
+        format.html { render :new }
+        format.json { render json: @topic.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   def new_topic_activity
     @topic = Topic.find_by(id: params[:id])

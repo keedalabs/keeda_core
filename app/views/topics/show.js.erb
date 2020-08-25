@@ -3,6 +3,5 @@ console.log(<%= @display_activities.current_page %>, <%= @display_activities.cur
 <% if @display_activities.last_page? %>
 $("#load-more-activities<%= dom_id(@topic) %>").hide();
 <% else %>
-console.log("<%= topic_path(@topic, page: @display_activities.current_page + 1, per_page: @per_page_count) %>")
 $("#load-more-activities<%= dom_id(@topic) %>").attr("href", "<%= topic_path(@topic, page: @display_activities.current_page + 1, per_page: @per_page_count) %>");
 <% end %>
