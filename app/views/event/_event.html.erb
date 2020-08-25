@@ -1,10 +1,7 @@
 <% topic ||= nil %>
-<% if activity.verb=='reply'
-     per_page_count = 3
-   else
-     per_page_count = 5
-   end
-   replies = activity.replies.page(1).per(per_page_count)
+<%
+     per_page_replies_count = 3
+   replies = activity.replies.page(1).per(per_page_replies_count)
 %>
 
 <% conditional_div(:show_div => activity.verb!= 'reply', :class => 'outline') do %>
@@ -83,7 +80,7 @@
         <% end %>
       </div>
       <% if (!replies.last_page? && replies.present?) %>
-        <%= link_to "Load more", activity_replies_path(activity, page: replies.current_page + 1, per_page: per_page_count), id: "load-more-replies"+dom_id(activity), remote: true %>
+        <%= link_to "Load more", activity_replies_path(activity, page: replies.current_page + 1, per_page: per_page_replies_count), id: "load-more-replies"+dom_id(activity), remote: true %>
       <% end %>
     </div>
   </div>

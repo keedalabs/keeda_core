@@ -1,5 +1,5 @@
-<% per_page_count = 3
-   replies = @page.replies.page(1).per(per_page_count) %>
+<% per_page_replies_count = 3
+   replies = @page.replies.page(1).per(per_page_replies_count) %>
 <p id="notice"><%= notice %></p>
 <div class="row">
   <div class="col-md-3">
@@ -43,7 +43,7 @@
           <% end %>
         </div>
         <% if (!replies.last_page? && replies.present?) %>
-          <%= link_to "Load more", activity_replies_path(activity, page: replies.current_page + 1, per_page: per_page_count), id: "load-more-replies"+dom_id(@page), remote: true %>
+          <%= link_to "Load more", activity_replies_path(activity, page: replies.current_page + 1, per_page: per_page_replies_count), id: "load-more-replies"+dom_id(@page), remote: true %>
         <% end %>
       </div>
     </div>
