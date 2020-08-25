@@ -98,4 +98,3 @@ gem "algoliasearch-rails", "~> 1.24"
 gem "cancancan", "~> 3.1"
 
 gem "activerecord-session_store", "~> 1.1"
-gem "selectize-rails"
